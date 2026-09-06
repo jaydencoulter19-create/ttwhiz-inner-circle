@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Wiz Inner Circle Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: dark;
+    --ink:#0E1217;
+    --ink-2:#151B22;
+    --ink-3:#1B222B;
+    --line:rgba(238,243,250,.08);
+    --line-2:rgba(238,243,250,.15);
+    --cream:#F3EFE7;
+    --muted:#A6B0BE;
+    --faint:#727C8A;
+    --gold:#E7A33E;
+    --gold-2:#F4B75C;
+    --gold-soft:rgba(231,163,62,.13);
+    --danger:#E5695B;
+    --radius:18px;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 18px 40px -18px rgba(0,0,0,.7);
+    font-family:'Manrope', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ink); color:var(--cream); line-height:1.55; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Bricolage Grotesque','Sora',system-ui,sans-serif; letter-spacing:-.02em; margin:0; line-height:1.1; font-weight:800; text-wrap:balance;}
+  p{margin:0;}
+  a{color:inherit;}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 24px;}
+  :focus-visible{outline:2px solid var(--gold); outline-offset:2px; border-radius:4px;}
+
+  /* Buttons */
+  .btn{display:inline-flex; align-items:center; gap:9px; font-family:inherit; font-weight:700; font-size:15px;
+    padding:14px 22px; border-radius:12px; cursor:pointer; text-decoration:none; border:1px solid transparent;
+    transition:transform .15s, box-shadow .2s, background .2s, border-color .2s, color .2s;}
+  .btn-primary{background:linear-gradient(180deg,var(--gold-2),var(--gold)); color:#20160A;
+    box-shadow:0 10px 30px -10px rgba(231,163,62,.55);}
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 16px 42px -12px rgba(231,163,62,.72);}
+  .btn-ghost{background:transparent; color:var(--cream); border-color:var(--line-2);}
+  .btn-ghost:hover{border-color:var(--gold); color:var(--gold);}
+
+  /* Hero */
+  .hero{position:relative; overflow:hidden; padding:58px 0 64px; border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(900px 440px at 50% -12%, rgba(231,163,62,.15), transparent 60%),
+      radial-gradient(760px 520px at 100% 0%, rgba(231,163,62,.05), transparent 55%),
+      var(--ink);}
+  .hero-inner{position:relative; z-index:1;}
+  .brandrow{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .brand{display:flex; align-items:center; gap:9px; font-family:'Bricolage Grotesque',sans-serif; font-weight:800;
+    font-size:15px; letter-spacing:.01em; color:var(--cream);}
+  .mark{width:26px; height:26px; border-radius:8px; background:linear-gradient(150deg,var(--gold-2),var(--gold));
+    color:#20160A; display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif;
+    font-size:12px; font-weight:800; flex-shrink:0;}
+  .badge{display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:700; color:var(--muted);
+    background:var(--ink-2); border:1px solid var(--line-2); padding:6px 11px; border-radius:999px;}
+  .badge .tick{color:var(--gold);}
+  .program-title{display:flex; flex-direction:column; align-items:center; gap:13px; margin-top:22px;}
+  .program-name{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(42px,6.8vw,66px); letter-spacing:-.025em; line-height:.95;
+    color:var(--gold); background:linear-gradient(180deg,var(--gold-2),var(--gold)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+  .program-tag{display:inline-flex; align-items:center; font-size:13px; font-weight:800; letter-spacing:.03em; color:var(--gold); background:var(--gold-soft); border:1px solid rgba(231,163,62,.32); padding:8px 15px; border-radius:999px; white-space:nowrap;}
+  .hero-kicker{margin-top:14px; color:var(--gold); font-weight:700; font-size:15px; font-family:'Bricolage Grotesque',sans-serif; letter-spacing:.01em;}
+  .hero h1{font-size:clamp(30px,5.2vw,50px); margin-top:12px; max-width:720px; line-height:1.06;}
+  .hero h1 em{font-style:normal; color:var(--gold);}
+  .lead{margin-top:16px; max-width:600px; font-size:17px; color:var(--muted);}
+  .stats{display:flex; flex-wrap:wrap; gap:14px 30px; margin-top:28px;}
+  .stat b{display:block; font-family:'Bricolage Grotesque',sans-serif; font-size:25px; font-weight:800; color:var(--cream);
+    font-variant-numeric:tabular-nums;}
+  .stat span{font-size:12.5px; color:var(--muted); font-weight:600; letter-spacing:.01em;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:30px;}
+  .reassure{font-size:13px; color:var(--muted);}
+  .pillbar{display:flex; flex-wrap:wrap; gap:9px; margin-top:22px;}
+  .pill{font-size:12.5px; font-weight:600; padding:7px 13px; border-radius:999px; color:var(--muted);
+    background:var(--ink-2); border:1px solid var(--line);}
+  /* Centered hero */
+  .hero-inner{text-align:center;}
+  .hero-inner .brandrow{justify-content:center;}
+  .hero-inner .program-title{justify-content:center;}
+  .hero-inner h1{margin-left:auto; margin-right:auto;}
+  .hero-inner .lead{margin-left:auto; margin-right:auto;}
+  .hero-inner .stats{justify-content:center;}
+  .hero-inner .cta-row{justify-content:center;}
+  .hero-inner .pillbar{justify-content:center;}
+
+  /* Why now */
+  .whynow-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px;}
+  @media (max-width:700px){.whynow-grid{grid-template-columns:1fr;}}
+  .whynow-stat{background:var(--ink-2); border:1px solid var(--line); border-radius:14px; padding:20px;}
+  .whynow-stat b{display:block; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(28px,4vw,38px); color:var(--gold); line-height:1; letter-spacing:-.02em; font-variant-numeric:tabular-nums;}
+  .whynow-stat span{display:block; margin-top:10px; font-size:13.5px; color:var(--muted); font-weight:600; line-height:1.45;}
+
+  /* Sections */
+  section{padding:56px 0; border-bottom:1px solid var(--line);}
+  section.tight{padding:42px 0;}
+  .eyebrow{display:inline-flex; align-items:center; gap:9px; color:var(--gold); font-weight:700; font-size:13px; margin-bottom:12px;}
+  .eyebrow::before{content:""; width:18px; height:2px; background:var(--gold); border-radius:2px;}
+  h2.section-title{font-size:clamp(22px,3.4vw,30px); max-width:680px;}
+  .section-head-row{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+
+  /* Who this is for */
+  .who-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:26px;}
+  @media (max-width:640px){.who-grid{grid-template-columns:1fr;}}
+  .who-card{background:var(--ink-2); border:1px solid var(--line); border-radius:14px; padding:17px 19px;
+    font-size:15px; font-weight:600; color:var(--cream); display:flex; gap:12px; align-items:flex-start;}
+  .who-card .check{color:#20160A; background:var(--gold); width:22px; height:22px; border-radius:7px;
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0;}
+
+  /* Included board */
+  .reset-link{background:none; border:1px solid var(--line-2); font-family:inherit; font-size:12.5px; font-weight:700;
+    color:var(--muted); cursor:pointer; padding:8px 14px; border-radius:9px; transition:.15s;}
+  .reset-link:hover{color:var(--gold); border-color:var(--gold);}
+
+  .board{margin-top:26px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:start;}
+  @media (max-width:800px){.board{grid-template-columns:1fr;}}
+  .pillar-col{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 16px; display:flex; flex-direction:column; min-height:190px;}
+  .pillar-col.dragging-col{opacity:.5; border-color:var(--gold); box-shadow:0 20px 42px -14px rgba(0,0,0,.7);}
+  .pillar-head{display:flex; align-items:center; gap:8px; margin-bottom:13px;}
+  .pillar-grip{flex-shrink:0; cursor:grab; color:var(--faint); font-size:16px; line-height:1; padding:3px 4px;
+    border-radius:6px; user-select:none; letter-spacing:-2px; transition:color .15s, background .15s;}
+  .pillar-grip:hover{color:var(--gold); background:var(--gold-soft);}
+  .pillar-grip:active{cursor:grabbing;}
+  .pillar-num{flex-shrink:0; width:26px; height:26px; border-radius:8px; background:var(--gold-soft); color:var(--gold);
+    display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:13px;}
+  .pillar-headmain{flex:1; min-width:0; display:flex; flex-direction:column; gap:1px;}
+  .pillar-kicker{font-size:11.5px; font-weight:800; color:var(--gold); font-family:'Bricolage Grotesque',sans-serif; letter-spacing:.01em; line-height:1;}
+  .pillar-title{font-size:16px; font-weight:800; color:var(--cream); font-family:'Bricolage Grotesque',sans-serif;
+    outline:none; border-bottom:1px dashed transparent; cursor:text;}
+  .pillar-title:hover, .pillar-title:focus{border-bottom-color:var(--gold);}
+
+  .block-list{flex:1; display:flex; flex-direction:column; gap:8px; min-height:64px; border-radius:12px; padding:4px;
+    transition:background .15s;}
+  .block-list.drag-over{background:var(--gold-soft);}
+  .block-list.is-empty::after{content:"Drop here"; display:block; text-align:center; font-size:12.5px; font-weight:700;
+    color:var(--faint); padding:18px 8px; border:1.5px dashed var(--line-2); border-radius:10px;}
+  .block-item{position:relative; background:var(--ink-3); border:1px solid var(--line); border-radius:11px;
+    padding:12px 54px 12px 13px; font-size:13.5px; color:var(--muted); cursor:grab; user-select:none; transition:border-color .15s;}
+  .block-item:hover{border-color:var(--line-2);}
+  .block-item b{display:block; color:var(--cream); font-weight:700; font-size:13.5px; margin-bottom:3px;}
+  .block-item:active{cursor:grabbing;}
+  .block-item.dragging{opacity:.4;}
+  .block-item .bi-caret{position:absolute; top:12px; right:13px; font-size:10px; color:var(--faint); pointer-events:none; transition:opacity .15s, transform .15s;}
+  .block-item:hover .bi-caret{opacity:0;}
+  .block-item.open .bi-caret{transform:rotate(180deg);}
+  .block-item .bi-text{display:none; margin-top:6px;}
+  .block-item.open .bi-text{display:block;}
+  .block-item:not(.open) .margin-math{display:none;}
+  .block-item .bi-link{display:inline-block; margin-top:9px; font-size:12.5px; font-weight:700; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(231,163,62,.45);}
+  .block-item .bi-link:hover{border-bottom-color:var(--gold);}
+  .block-item:not(.open) .bi-link{display:none;}
+  .block-item.editing{cursor:default; user-select:text; background:var(--ink-2); border-color:var(--gold);
+    box-shadow:0 0 0 2px var(--gold-soft);}
+  .block-item.editing .bi-label,
+  .block-item.editing .bi-text{user-select:text; outline:none;}
+  .block-item.editing .bi-label:focus,
+  .block-item.editing .bi-text:focus{background:var(--gold-soft); border-radius:5px;}
+  .bi-actions{position:absolute; top:7px; right:7px; display:flex; gap:4px; opacity:0; transition:opacity .15s;}
+  .block-item:hover .bi-actions, .block-item.editing .bi-actions{opacity:1;}
+  .bi-btn{width:22px; height:22px; padding:0; border-radius:6px; border:1px solid var(--line-2); background:var(--ink);
+    color:var(--muted); font-size:12px; line-height:1; font-family:inherit; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:color .15s, border-color .15s, background .15s;}
+  .bi-btn:hover{color:var(--gold); border-color:var(--gold); background:var(--gold-soft);}
+  .bi-del:hover{color:var(--danger); border-color:var(--danger); background:rgba(229,105,91,.12);}
+  .add-item{margin-top:8px; width:100%; padding:9px 10px; border:1.5px dashed var(--line-2); background:transparent;
+    border-radius:10px; color:var(--faint); font-family:inherit; font-weight:700; font-size:13px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:6px; transition:color .15s, border-color .15s, background .15s;}
+  .add-item:hover{border-color:var(--gold); color:var(--gold); background:var(--gold-soft);}
+  .add-item .plus{font-size:16px; line-height:1;}
+  .margin-math{margin-top:9px; border-top:1px solid var(--line); padding-top:9px;}
+  .margin-math summary{cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--gold);}
+  .margin-math summary::-webkit-details-marker{display:none;}
+  .margin-math summary::before{content:"+"; font-weight:800; font-size:13px; line-height:1;}
+  .margin-math[open] summary::before{content:"\2013";}
+  .margin-math ul{margin:8px 0 2px; padding:0; list-style:none; display:flex; flex-direction:column; gap:5px;}
+  .margin-math li{font-size:12.5px; color:var(--muted); font-weight:600;}
+
+  .tray-section{margin-top:14px;}
+  .tray{border:1.5px dashed var(--line-2); border-radius:14px; padding:14px 16px; background:transparent;}
+  .tray-label{font-size:12px; font-weight:700; color:var(--faint); margin-bottom:10px;}
+  .tray .block-list{flex-direction:row; flex-wrap:wrap; min-height:0;}
+  .tray .block-item{flex:0 0 auto; max-width:260px;}
+  .tray .block-list.is-empty::after{content:"Nothing hidden — drag cards here to leave them out"; padding:12px 8px;}
+
+  /* What this gets you */
+  .gets-grid{margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media (max-width:640px){.gets-grid{grid-template-columns:1fr;}}
+  .gets-item{position:relative; background:var(--ink-2); border:1px solid var(--line); border-radius:12px;
+    padding:17px 19px 17px 48px; font-size:15px; font-weight:600; color:var(--cream);}
+  .gets-item::before{content:"✓"; position:absolute; left:16px; top:16px; width:20px; height:20px; border-radius:6px;
+    background:var(--gold-soft); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;}
+
+  /* Your path */
+  .path{margin-top:28px; display:flex; flex-direction:column;}
+  .path-step{display:flex; gap:16px; padding:15px 0;}
+  .path-step:not(:last-child){border-bottom:1px solid var(--line);}
+  .path-num{flex-shrink:0; width:34px; height:34px; border-radius:10px; background:var(--ink); border:1px solid var(--line-2);
+    color:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:14px;}
+  .path-body b{display:block; font-size:15.5px; font-weight:800; color:var(--cream); margin-bottom:3px; font-family:'Bricolage Grotesque',sans-serif;}
+  .path-body span{font-size:14.5px; color:var(--muted);}
+
+  /* Proof */
+  .proof-card{margin-top:24px; position:relative; overflow:hidden; border:1px solid var(--line-2); border-radius:var(--radius);
+    padding:30px 26px; background:radial-gradient(620px 320px at 92% -25%, rgba(231,163,62,.12), transparent 60%), var(--ink-2);}
+  .proof-card p{color:var(--muted); font-size:15px; max-width:640px;}
+  .proof-links{margin-top:18px; display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  @media (max-width:640px){.proof-links{grid-template-columns:1fr;}}
+  .proof-link{display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--ink);
+    border:1px solid var(--line); padding:14px 16px; border-radius:12px; font-weight:700; font-size:14px;
+    text-decoration:none; color:var(--cream); transition:border-color .15s;}
+  .proof-link:hover{border-color:var(--gold);}
+  .proof-link .arrow{color:var(--gold); font-weight:800;}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{width:100%; text-align:left; background:none; border:none; padding:18px 0; cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:'Bricolage Grotesque',sans-serif;
+    font-size:16px; font-weight:700; color:var(--cream); transition:color .15s;}
+  .faq-q:hover{color:var(--gold);}
+  .faq-q .plus{color:var(--gold); font-size:19px; font-weight:800; flex-shrink:0; transition:transform .2s;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .faq-a p{padding-bottom:18px; font-size:14.5px; color:var(--muted); max-width:660px;}
+
+  /* Closing CTA */
+  .cta-band{position:relative; overflow:hidden; text-align:center; padding:58px 0; border-bottom:1px solid var(--line);
+    background:radial-gradient(720px 340px at 50% -35%, rgba(231,163,62,.18), transparent 60%), var(--ink-2);}
+  .cta-band h2{font-size:clamp(24px,3.8vw,34px); max-width:640px; margin:0 auto;}
+  .cta-band p{margin:14px auto 0; max-width:520px; color:var(--muted); font-size:16px;}
+  .cta-band .cta-row{justify-content:center;}
+
+  /* Footer */
+  footer{padding:38px 0 58px;}
+  .foot-inner{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px;}
+  .foot-brand{display:flex; align-items:center; gap:9px; color:var(--muted); font-weight:700; font-family:'Bricolage Grotesque',sans-serif; font-size:14px;}
+  .foot-note{font-size:12px; color:var(--faint); max-width:440px;}
+
+  /* Investment & next steps */
+  .invest-body{margin-top:26px; display:flex; flex-direction:column; gap:16px;}
+  .invest-body[hidden]{display:none;}
+  .block-title{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:19px; color:var(--cream); margin:6px 0 14px;}
+  .pnum{outline:none; border-bottom:1px dashed transparent; cursor:text; border-radius:3px; padding:0 1px;}
+  .pnum:hover, .pnum:focus{border-bottom-color:var(--gold); background:var(--gold-soft);}
+
+  .stack{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius); padding:6px;}
+  .stack-row{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px; border-bottom:1px solid var(--line);}
+  .stack-row:last-child{border-bottom:none;}
+  .stack-row .lbl{font-size:14.5px; color:var(--cream); font-weight:600;}
+  .stack-row .val{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap;}
+  .stack-row.total{background:var(--gold-soft); border-radius:12px;}
+  .stack-row.total .lbl{font-family:'Bricolage Grotesque',sans-serif; font-weight:800;}
+  .stack-row.total .val{color:var(--gold); font-size:20px;}
+
+  .price-card{position:relative; overflow:hidden; border:1px solid var(--line-2); border-radius:var(--radius); padding:28px 26px;
+    background:radial-gradient(620px 320px at 100% -30%, rgba(231,163,62,.14), transparent 60%), var(--ink-2);}
+  .price-headline{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(22px,3.4vw,30px); color:var(--cream); line-height:1.15;}
+  .price-sub{margin-top:12px; color:var(--muted); font-size:15px; max-width:580px;}
+  .urgency{display:inline-flex; align-items:center; gap:9px; margin-top:16px; padding:8px 14px; border-radius:999px;
+    background:rgba(229,105,91,.12); border:1px solid rgba(229,105,91,.32); color:#F0A79D; font-size:13px; font-weight:700;}
+  .udot{width:7px; height:7px; border-radius:50%; background:var(--danger); box-shadow:0 0 0 4px rgba(229,105,91,.15); flex-shrink:0;}
+  .price-box{margin-top:20px; display:flex; flex-direction:column; align-items:flex-start; gap:11px; padding:20px;
+    background:var(--ink); border:1px solid var(--line-2); border-radius:14px;}
+  .price-tier{font-size:13px; font-weight:800; color:var(--gold); font-family:'Bricolage Grotesque',sans-serif;}
+  .price-line{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;}
+  .price-was{color:var(--faint); font-size:16px; font-weight:600;}
+  .price-now{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(34px,6vw,52px); color:var(--cream); line-height:1; font-variant-numeric:tabular-nums;}
+  .price-save{font-size:13px; font-weight:800; color:#20160A; background:var(--gold); padding:6px 12px; border-radius:999px;}
+  .price-save .pnum:hover, .price-save .pnum:focus{background:rgba(0,0,0,.14); border-bottom-color:#20160A;}
+
+  .plans{margin-top:16px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+  .plans-2{grid-template-columns:1fr 1fr;}
+  @media (max-width:640px){.plans{grid-template-columns:1fr;}}
+  .plan{background:var(--ink); border:1px solid var(--line); border-radius:12px; padding:14px 15px;}
+  .plan-name{font-size:12.5px; color:var(--faint); font-weight:700;}
+  .plan-amt{margin-top:5px; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:21px; color:var(--cream); font-variant-numeric:tabular-nums;}
+  .plan-note{margin-top:3px; font-size:12px; color:var(--muted);}
+
+  .guarantee{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius); padding:24px;}
+  .guarantee-badge{display:inline-flex; align-items:center; gap:8px; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; color:var(--gold); font-size:14px;}
+  .guarantee h3{margin-top:12px; font-size:19px; color:var(--cream); max-width:640px; line-height:1.3;}
+  .guarantee h3 .pnum{color:var(--gold);}
+  .guarantee-lead{margin-top:10px; color:var(--muted); font-size:15px; max-width:620px;}
+  .gtr-grid{margin-top:18px; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media (max-width:640px){.gtr-grid{grid-template-columns:1fr;}}
+  .gtr-col{background:var(--ink); border:1px solid var(--line); border-radius:12px; padding:16px 17px;}
+  .gtr-label{font-size:12.5px; font-weight:800; color:var(--gold); font-family:'Bricolage Grotesque',sans-serif; margin-bottom:11px;}
+  .gtr-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px;}
+  .gtr-list li{position:relative; padding-left:25px; font-size:14px; color:var(--cream); font-weight:600;}
+  .gtr-list li::before{content:"✓"; position:absolute; left:0; top:1px; width:17px; height:17px; border-radius:5px;
+    background:var(--gold-soft); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800;}
+  .fine{margin-top:16px; font-size:12px; line-height:1.65; color:var(--faint); max-width:780px;}
+
+  .closing-line{margin-top:18px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:16px; color:var(--gold); max-width:600px;}
+  .inline-link{color:var(--gold); font-weight:700; text-decoration:none; border-bottom:1px solid rgba(231,163,62,.45); white-space:nowrap;}
+  .inline-link:hover{border-bottom-color:var(--gold);}
+
+  /* Presenter highlight tool */
+  .hl-dock{position:fixed; right:18px; bottom:18px; z-index:9999; display:flex; gap:8px; align-items:center;}
+  .hl-fab{display:inline-flex; align-items:center; gap:8px; font-family:inherit; font-weight:800; font-size:14px;
+    padding:12px 16px; border-radius:999px; cursor:pointer; border:1px solid var(--line-2); background:var(--ink-2);
+    color:var(--cream); box-shadow:var(--shadow); transition:color .15s, border-color .15s, background .15s;}
+  .hl-fab:hover{border-color:var(--gold); color:var(--gold);}
+  .hl-fab.active{background:linear-gradient(180deg,var(--gold-2),var(--gold)); color:#20160A; border-color:transparent;}
+  .hl-fab-sec{font-size:13px; padding:11px 14px; font-weight:700;}
+  body.hl-mode *{cursor:crosshair !important;}
+  body.hl-mode .hl-dock *{cursor:pointer !important;}
+  .hl-on{outline:3px solid var(--gold) !important; outline-offset:3px; box-shadow:0 0 34px -4px rgba(231,163,62,.5) !important; border-radius:8px;}
+
+  /* Collapsible pillars — fold away the ones you're not covering to center the one you are */
+  .pillar-collapse{flex-shrink:0; width:24px; height:24px; border-radius:7px; border:1px solid var(--line-2);
+    background:none; color:var(--muted); font-size:11px; line-height:1; cursor:pointer; display:flex;
+    align-items:center; justify-content:center; font-family:inherit; transition:color .15s, border-color .15s, transform .15s;}
+  .pillar-collapse:hover{color:var(--gold); border-color:var(--gold);}
+  .pillar-col.collapsed .pillar-collapse{transform:rotate(-90deg);}
+  .pillar-col.collapsed{min-height:0;}
+  .pillar-col.collapsed .pillar-head{margin-bottom:0;}
+  .pillar-col.collapsed .pillar-num{display:none;}
+  .pillar-col.collapsed .block-list,
+  .pillar-col.collapsed .add-item{display:none;}
+  .pillar-col.collapsed .pillar-title{white-space:normal;}
+  #board.has-collapsed{display:flex; justify-content:center; align-items:flex-start; gap:14px; flex-wrap:wrap;}
+  #board.has-collapsed .pillar-col{flex:0 1 320px;}
+  #board.has-collapsed .pillar-col.collapsed{flex:0 0 auto; width:230px;}
+
+  @media (prefers-reduced-motion: reduce){*{transition:none !important; animation:none !important;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap hero-inner">
+    <div class="brandrow">
+      <div class="brand"><span class="mark">TW</span>TikTok Wiz</div>
+      <span class="badge"><span class="tick">✓</span> Jon Reiter · Founder · Official TikTok Shop Partner</span>
+    </div>
+    <div class="program-title">
+      <span class="program-name">Inner Circle</span>
+      <span class="program-tag">6-Month Mentorship Program</span>
+    </div>
+    <p class="hero-kicker">1:1 coaching for real TikTok Shop businesses.</p>
+    <h1>Build a real income stream on TikTok Shop — <em>without showing your face.</em></h1>
+    <p class="lead">The elite training and mentorship experience for launching, growing, and scaling your own TikTok Shop — no experience, no followers, no camera required.</p>
+    <div class="stats">
+      <div class="stat"><b>600+</b><span>active members</span></div>
+      <div class="stat"><b>$6M+</b><span>tracked member sales</span></div>
+      <div class="stat"><b>100+</b><span>video lessons</span></div>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://ttwizzprogram.com/" target="_blank" rel="noopener">Visit ttwizzprogram.com</a>
+      <a class="btn btn-ghost" href="https://www.ttwhizprogram.com/webinar-recording-page-ttw" target="_blank" rel="noopener">Watch the webinar</a>
+      <span class="reassure">No hype — results you can verify.</span>
+    </div>
+    <div class="pillbar">
+      <div class="pill">No experience needed</div>
+      <div class="pill">No followers required</div>
+      <div class="pill">Never show your face</div>
+    </div>
+  </div>
+</div>
+
+<section class="tight" id="whynow">
+  <div class="wrap">
+    <div class="eyebrow">Why now — the Q4 window</div>
+    <h2 class="section-title">Q4 is when the year's sales happen</h2>
+    <div class="whynow-grid">
+      <div class="whynow-stat"><b>72%</b><span>of annual e-commerce sales happen in Q4 — the last 3 months of the year</span></div>
+      <div class="whynow-stat"><b>$32M</b><span>spent daily on TikTok Shop, growing 25% month over month into Q4</span></div>
+      <div class="whynow-stat"><b>70M+</b><span>active monthly shoppers on the platform heading into the holidays</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <div class="eyebrow">Who this is for</div>
+    <h2 class="section-title">Built for people ready to build something real</h2>
+    <div class="who-grid">
+      <div class="who-card"><span class="check">✓</span>Build a second income stream, or replace your current one</div>
+      <div class="who-card"><span class="check">✓</span>Escape inconsistent or low-paying work</div>
+      <div class="who-card"><span class="check">✓</span>Launch and grow a real online business with support behind you</div>
+      <div class="who-card"><span class="check">✓</span>Learn how to actually make money on TikTok, step by step</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head-row">
+      <div>
+        <div class="eyebrow">What's included</div>
+        <h2 class="section-title">Everything included, organized three ways, personalized to you</h2>
+      </div>
+      <button class="reset-link" id="resetLayout">Reset layout</button>
+    </div>
+
+    <div class="board" id="board"></div>
+
+    <div class="tray-section">
+      <div class="tray">
+        <div class="tray-label">Not shown</div>
+        <div class="block-list" id="trayList" data-pillar="0"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <div class="eyebrow">What this gets you</div>
+    <h2 class="section-title">The outcome, not just the offer</h2>
+    <div class="gets-grid">
+      <div class="gets-item">A real, working online business — not just information</div>
+      <div class="gets-item">A step-by-step path to your first sale within 30 days, with a coach guiding you</div>
+      <div class="gets-item">A team helping you grow past your first sale into consistent income</div>
+      <div class="gets-item">A community of people doing this alongside you, not doing it alone</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Your path</div>
+    <h2 class="section-title">How it actually works</h2>
+    <div class="path">
+      <div class="path-step"><div class="path-num">1</div><div class="path-body"><b>Set up your shop</b><span>We guide you through this so it's done right the first time.</span></div></div>
+      <div class="path-step"><div class="path-num">2</div><div class="path-body"><b>Pick your product</b><span>Using real sales data, not guesswork. Most members start with print-on-demand — no inventory to buy, no upfront cost.</span></div></div>
+      <div class="path-step"><div class="path-num">3</div><div class="path-body"><b>Get your custom game plan</b><span>A 1-on-1 strategy call maps out exactly what you need to do.</span></div></div>
+      <div class="path-step"><div class="path-num">4</div><div class="path-body"><b>Launch your content</b><span>Creators in our network make and post content that drives traffic to your shop.</span></div></div>
+      <div class="path-step"><div class="path-num">5</div><div class="path-body"><b>Scale with ads</b><span>Once you've got traction, we teach you how to run ads to grow it further.</span></div></div>
+      <div class="path-step"><div class="path-num">6</div><div class="path-body"><b>Keep growing with support</b><span>Coaching calls, community, and your team are there the whole way.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <div class="proof-card">
+      <div class="eyebrow">Testimonials & proof</div>
+      <h2 class="section-title">The real proof is in the results</h2>
+      <p>See it from current members directly. Live webinars also run twice a week, breaking this whole thing down in more depth.</p>
+      <div class="proof-links">
+        <a class="proof-link" href="https://www.ttwhizprogram.com/inner-circle-proof" target="_blank" rel="noopener">See testimonials & results <span class="arrow">→</span></a>
+        <a class="proof-link" href="https://us06web.zoom.us/rec/share/-Gnn_rTlKILwnzMx2ha7oHkBzbAWvJ0H3N5u5ZZpzxATSEw2pH_9rDXRcZlBaEne.dqkF0eaa6g4228jr" target="_blank" rel="noopener">Watch the most recent webinar replay <span class="arrow">→</span></a>
+        <a class="proof-link" href="https://www.ttwhizprogram.com/webinar-recording-page-ttw" target="_blank" rel="noopener">Register for the next live webinar <span class="arrow">→</span></a>
+        <a class="proof-link" href="https://docs.google.com/spreadsheets/d/1JIVLfifRnpjLfazsRH9uss1uLLrM6edpyyxXJB4UNeE/edit?gid=1792023183#gid=1792023183" target="_blank" rel="noopener">View the 30-Day Sprint Plan <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">FAQ</div>
+    <h2 class="section-title">Common questions</h2>
+    <div id="faqList" style="margin-top:16px;"></div>
+  </div>
+</section>
+
+<section id="investment">
+  <div class="wrap">
+    <div class="eyebrow">6-month mentorship</div>
+    <h2 class="section-title">Ready when you are</h2>
+    <p class="section-sub">The full value, your investment, and exactly what happens after you enroll. Every figure below is editable — click a number to update it.</p>
+    <div style="margin-top:22px;">
+      <button id="revealInvestment" class="btn btn-primary" type="button" aria-expanded="false" aria-controls="investmentBody">Investment &amp; Next Steps</button>
+    </div>
+
+    <div class="invest-body" id="investmentBody" hidden>
+
+      <div>
+        <div class="eyebrow">The value</div>
+        <h3 class="block-title">Everything you get inside the Inner Circle</h3>
+        <div class="stack">
+          <div class="stack-row"><span class="lbl">90-day launch &amp; scale roadmap, step by step</span><span class="val"><span class="pnum" contenteditable="true" data-price="v1">$2,000</span></span></div>
+          <div class="stack-row"><span class="lbl">Three-weekly live coaching + 1-on-1 support</span><span class="val"><span class="pnum" contenteditable="true" data-price="v2">$6,000</span></span></div>
+          <div class="stack-row"><span class="lbl">Elite operator community + affiliate creator network</span><span class="val"><span class="pnum" contenteditable="true" data-price="v3">$2,000</span></span></div>
+          <div class="stack-row"><span class="lbl">Done-for-you scripts, templates &amp; <span class="pnum" contenteditable="true" data-price="tools">$1,000</span> in AI tools</span><span class="val"><span class="pnum" contenteditable="true" data-price="v4">$3,000</span></span></div>
+          <div class="stack-row"><span class="lbl">100+ video lessons + advanced scaling systems</span><span class="val"><span class="pnum" contenteditable="true" data-price="v5">$4,000</span></span></div>
+          <div class="stack-row total"><span class="lbl">Total value</span><span class="val"><span class="pnum" contenteditable="true" data-price="vtotal">$18,000+</span></span></div>
+        </div>
+      </div>
+
+      <div class="price-card">
+        <div class="eyebrow">Your investment</div>
+        <div class="price-headline"><span class="pnum" contenteditable="true" data-price="vtotal">$18,000+</span> in value. One decision.</div>
+        <p class="price-sub">Six months of coaching, tools, community, and the exact system Jon used to generate <span class="pnum" contenteditable="true" data-price="studentsales">$3M+</span> in student sales — built to get your shop seasoned before Q4.</p>
+        <div class="urgency"><span class="udot"></span>Lock in before Q4 — this pricing won't last.</div>
+        <div class="price-box">
+          <div class="price-tier">6-Month Mentorship</div>
+          <div class="price-line">
+            <span class="price-was">Enrollment <s><span class="pnum" contenteditable="true" data-price="enroll">$12,000</span></s></span>
+            <span class="price-now"><span class="pnum" contenteditable="true" data-price="price">$9,500</span></span>
+          </div>
+          <span class="price-save">Save <span class="pnum" contenteditable="true" data-price="save">$2,500</span> today</span>
+        </div>
+        <div class="plans plans-2">
+          <div class="plan"><div class="plan-name">Pay in full</div><div class="plan-amt"><span class="pnum" contenteditable="true" data-price="price">$9,500</span></div><div class="plan-note">Best value — save the most</div></div>
+          <div class="plan"><div class="plan-name">Financing</div><div class="plan-amt"><span class="pnum" contenteditable="true" data-price="planmo">$895</span>/mo</div><div class="plan-note">Split over <span class="pnum" contenteditable="true" data-price="planmin">12</span>–<span class="pnum" contenteditable="true" data-price="planmax">36</span>mo — credit dependent, we see what you qualify for</div></div>
+        </div>
+      </div>
+
+      <div class="guarantee">
+        <div class="guarantee-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg> Specific guarantee</div>
+        <h3>Hit <span class="pnum" contenteditable="true" data-price="gmv">$15,000</span> GMV within 6 months — or you're covered.</h3>
+        <p class="guarantee-lead">The Inner Circle isn't just a program — it's your shortcut to predictable, scalable TikTok Shop success.</p>
+        <div class="gtr-grid">
+          <div class="gtr-col">
+            <div class="gtr-label">Requirements to qualify</div>
+            <ul class="gtr-list">
+              <li>100% class content completion</li>
+              <li>80% group call attendance</li>
+              <li>1-on-1 support utilized weekly</li>
+            </ul>
+          </div>
+          <div class="gtr-col">
+            <div class="gtr-label">If you don't hit it</div>
+            <ul class="gtr-list">
+              <li>Full refund, or</li>
+              <li>Stay in the program until you do</li>
+            </ul>
+          </div>
+        </div>
+        <p class="fine">Guarantee is conditional. To qualify, members must meet the program's eligibility criteria and complete their required action items — including 100% class content completion, 80% group call attendance, and using their weekly 1-on-1 support. Doing your part is required to be eligible. Full terms provided at enrollment.</p>
+      </div>
+
+      <div>
+        <div class="eyebrow">After you enroll</div>
+        <h3 class="block-title">What happens next</h3>
+        <div class="path">
+          <div class="path-step"><div class="path-num">1</div><div class="path-body"><b>Sign your contract</b><span>Sent automatically the moment you're in — it protects both of us and includes your guarantee.</span></div></div>
+          <div class="path-step"><div class="path-num">2</div><div class="path-body"><b>Get your welcome email</b><span>Everything you need before your onboarding call, in one place.</span></div></div>
+          <div class="path-step"><div class="path-num">3</div><div class="path-body"><b>Book your 1-on-1 onboarding call</b><span>With your dedicated Customer Success Manager — your point person from day one.</span></div></div>
+          <div class="path-step"><div class="path-num">4</div><div class="path-body"><b>Get set up in Discord</b><span>They'll add you, open your personal 1-on-1 channel, and plug you into the community.</span></div></div>
+          <div class="path-step"><div class="path-num">5</div><div class="path-body"><b>Start your 30-Day Sprint</b><span>The exact day-by-day plan that walks you to your first sale. <a class="inline-link" href="https://docs.google.com/spreadsheets/d/1JIVLfifRnpjLfazsRH9uss1uLLrM6edpyyxXJB4UNeE/edit?gid=1792023183#gid=1792023183" target="_blank" rel="noopener">View the plan →</a></span></div></div>
+        </div>
+        <p class="closing-line">By the time we hang up today, you'll already know what tomorrow looks like.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="wrap">
+    <h2>Everything you just saw, in one place</h2>
+    <p>Explore the full program, member results, and everything included on the main site.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://ttwizzprogram.com/" target="_blank" rel="noopener">Visit ttwizzprogram.com</a>
+      <a class="btn btn-ghost" href="https://www.ttwhizprogram.com/inner-circle-proof" target="_blank" rel="noopener">See member results</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="foot-brand"><span class="mark">TW</span> TikTok Wiz — Inner Circle</div>
+    <div class="foot-note">Official TikTok Shop Partner. Individual results are not typical; we don't promise outcomes we can't back up.</div>
+  </div>
+</footer>
+
+<div class="hl-dock">
+  <button id="hlClear" class="hl-fab hl-fab-sec" type="button" hidden>Clear</button>
+  <button id="hlToggle" class="hl-fab" type="button" aria-pressed="false">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l4 4"/><path d="M13.5 6.5l-8.5 8.5-1 4 4-1 8.5-8.5"/><path d="M4 19h6"/></svg>
+    Highlight
+  </button>
+</div>
+
+<script>
+(function(){
+  const DEFAULT_BLOCKS = {
+    curriculum: { label:"The Curriculum", text:"Lifetime access to the full TikTok Shop Masterclass — 100+ short video lessons covering shop setup, product selection, content, ads, and growing sales over time." },
+    product: { label:"Winning Product Process", text:"We set your store up the right way and help you choose your product using real data, not a guess — it needs a wow factor, it needs to solve a problem, and it needs to be easy to make content about." },
+    affiliate: { label:"Affiliate Creator Network", text:"A network of creators makes content and promotes your product for you — they only get paid when your product sells, so there's no risk to you." },
+    scaling: { label:"Scaling With Ads", text:"Once a product is selling, run ads the right way to grow faster — plus bring on more affiliates and open additional stores as income grows." },
+    coaching: { label:"1-on-1 Coaching & Group Calls", text:"A dedicated Customer Success Manager keeps you on track week by week, a 1-on-1 strategy call to map an exact game plan, live group coaching calls multiple times a week, and ticket support whenever you need it." },
+    community: { label:"Community & Lifetime Access", text:"A private, active community of other members building alongside you — support, ideas, and accountability the whole way through." }
+  };
+
+  const DEFAULT_STATE = {
+    order: [1, 2, 3],
+    titles: { 1:"Store Setup & Winning Product", 2:"Viral Affiliates", 3:"Coaching & Scaling" },
+    pillars: {
+      1: ["curriculum","product"],
+      2: ["affiliate"],
+      3: ["scaling","coaching","community"],
+      0: []
+    },
+    blocks: JSON.parse(JSON.stringify(DEFAULT_BLOCKS))
+  };
+
+  const STORAGE_KEY = 'ttw_board_state_v2';
+  const LEGACY_KEY  = 'ttw_board_state_v1';
+
+  // --- Update-friendly persistence (per-browser) --------------------------
+  // Each rep's edits live only in their browser. We store the defaults they
+  // last saw ("base") alongside their state ("theirs"). On load we 3-way merge
+  // against the current code defaults ("cur"): fields the rep changed from base
+  // are kept; fields they never touched adopt the new defaults. That means when
+  // you push an update, untouched copy/numbers/columns refresh automatically
+  // while the rep keeps everything they personally edited. No version bump
+  // needed — just edit the defaults and republish.
+  function snapshotDefaults(){
+    return JSON.parse(JSON.stringify({
+      order: DEFAULT_STATE.order,
+      titles: DEFAULT_STATE.titles,
+      pillars: DEFAULT_STATE.pillars,
+      blocks: DEFAULT_BLOCKS
+    }));
+  }
+  function eq(a, b){ return JSON.stringify(a) === JSON.stringify(b); }
+
+  function mergeState(base, cur, theirs){
+    const out = { order: null, titles: {}, pillars: {}, blocks: {} };
+
+    out.order = eq(theirs.order, base.order) ? cur.order.slice() : theirs.order.slice();
+
+    Object.keys(cur.titles).forEach(function(pid){
+      const t = theirs.titles ? theirs.titles[pid] : undefined;
+      const b = base.titles ? base.titles[pid] : undefined;
+      out.titles[pid] = (t !== undefined && t !== b) ? t : cur.titles[pid];
+    });
+    if(theirs.titles){ Object.keys(theirs.titles).forEach(function(pid){ if(!(pid in out.titles)) out.titles[pid] = theirs.titles[pid]; }); }
+
+    const baseBlocks = base.blocks || {}, theirBlocks = theirs.blocks || {};
+    const keys = {};
+    Object.keys(cur.blocks).forEach(function(k){ keys[k] = 1; });
+    Object.keys(theirBlocks).forEach(function(k){ keys[k] = 1; });
+    Object.keys(keys).forEach(function(k){
+      const inCur = k in cur.blocks, inBase = k in baseBlocks;
+      const t = theirBlocks[k], b = baseBlocks[k];
+      if(!inCur && !inBase){ if(t) out.blocks[k] = t; }   // card the rep added
+      else if(t && !eq(t, b)){ out.blocks[k] = t; }        // default the rep edited
+      else if(inCur){ out.blocks[k] = cur.blocks[k]; }     // untouched default → take the update
+      // default the rep deleted (in base, not in theirs) → leave out
+    });
+
+    if(eq(theirs.pillars, base.pillars)){
+      out.pillars = JSON.parse(JSON.stringify(cur.pillars));
+    } else {
+      out.pillars = JSON.parse(JSON.stringify(theirs.pillars));
+      for(let p = 0; p <= 3; p++){ if(!out.pillars[p]) out.pillars[p] = []; }
+      const placed = {};
+      Object.keys(out.pillars).forEach(function(p){ out.pillars[p].forEach(function(k){ placed[k] = 1; }); });
+      // Surface brand-new default cards the rep has never seen into the tray.
+      Object.keys(cur.blocks).forEach(function(k){ if(!(k in baseBlocks) && !placed[k]) out.pillars[0].push(k); });
+    }
+    Object.keys(out.pillars).forEach(function(p){
+      out.pillars[p] = out.pillars[p].filter(function(k){ return k in out.blocks; });
+    });
+    return out;
+  }
+
+  function legacyState(){
+    try{
+      const raw = localStorage.getItem(LEGACY_KEY);
+      if(!raw) return null;
+      const parsed = JSON.parse(raw);
+      if(!parsed || !parsed.titles || !parsed.pillars) return null;
+      const titles = Array.isArray(parsed.titles)
+        ? { 1:parsed.titles[0], 2:parsed.titles[1], 3:parsed.titles[2] }
+        : parsed.titles;
+      const blocks = Object.assign(snapshotDefaults().blocks, parsed.blocks || {});
+      return { order: parsed.order || [1,2,3], titles: titles, pillars: parsed.pillars, blocks: blocks };
+    }catch(e){ return null; }
+  }
+
+  function loadState(){
+    const cur = snapshotDefaults();
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        const saved = JSON.parse(raw);
+        if(saved && saved.state) return mergeState(saved.base || cur, cur, saved.state);
+      }
+      const legacy = legacyState();
+      if(legacy) return mergeState(cur, cur, legacy);
+    }catch(e){}
+    return JSON.parse(JSON.stringify(cur));
+  }
+
+  function saveState(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ base: snapshotDefaults(), state: state }));
+    }catch(e){}
+  }
+
+  let state = loadState();
+  saveState(); // lock in the merged result and refresh the stored "base" to current defaults
+  let columnDragging = false;
+  // Which pillars are folded away (by pillar id). Presentation-only, in memory,
+  // reapplied on every render so it survives drags/edits but never hits storage.
+  let collapsed = {};
+  // Which cards have their description expanded (by card key). Also view-only.
+  let openCards = {};
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+
+  // Collapsed-by-default factual detail shown only on the Winning Product Process card.
+  // Kept in the card markup so it works identically in a pillar or the "Not shown" tray;
+  // its open/closed state is intentionally not persisted across renders/drags.
+  const MARGIN_MATH_HTML = `<details class="margin-math">
+        <summary>Margin math</summary>
+        <ul>
+          <li>Typical t-shirt production cost: ~$7</li>
+          <li>Typical sell price: ~$20</li>
+          <li>Margins land in the 40&ndash;70% range</li>
+        </ul>
+      </details>`;
+
+  const SPRINT_LINK_HTML = `<a class="bi-link" href="https://docs.google.com/spreadsheets/d/1JIVLfifRnpjLfazsRH9uss1uLLrM6edpyyxXJB4UNeE/edit?gid=1792023183#gid=1792023183" target="_blank" rel="noopener">View the 30-Day Sprint plan →</a>`;
+
+  function blockItemHtml(key){
+    const b = state.blocks[key];
+    if(!b) return '';
+    return `<div class="block-item${openCards[key] ? ' open' : ''}" draggable="true" data-key="${key}">
+      <div class="bi-actions">
+        <button class="bi-btn bi-edit" type="button" title="Edit" aria-label="Edit this card">✎</button>
+        <button class="bi-btn bi-del" type="button" title="Remove" aria-label="Remove this card">✕</button>
+      </div>
+      <span class="bi-caret" aria-hidden="true">▾</span>
+      <b class="bi-label">${escapeHtml(b.label)}</b>
+      <span class="bi-text">${escapeHtml(b.text)}</span>
+      ${key === 'product' ? MARGIN_MATH_HTML : ''}
+      ${/\bsprint\b/i.test(b.label || '') ? SPRINT_LINK_HTML : ''}
+    </div>`;
+  }
+
+  function renderBoard(){
+    const board = document.getElementById('board');
+    board.innerHTML = '';
+    state.order.forEach((pid, idx)=>{
+      const col = document.createElement('div');
+      col.className = 'pillar-col';
+      col.dataset.pid = pid;
+      const keys = state.pillars[pid] || [];
+      col.innerHTML = `
+        <div class="pillar-head">
+          <span class="pillar-grip" title="Drag to reorder this column" aria-label="Drag to reorder">⠿</span>
+          <div class="pillar-headmain">
+            <span class="pillar-kicker">Pillar ${idx+1}</span>
+            <div class="pillar-title" contenteditable="true" data-pid="${pid}">${escapeHtml(state.titles[pid])}</div>
+          </div>
+          <button class="pillar-collapse" type="button" data-pid="${pid}" title="Collapse" aria-label="Collapse or expand this column">▾</button>
+        </div>
+        <div class="block-list" data-pillar="${pid}">
+          ${keys.map(blockItemHtml).join('')}
+        </div>
+        <button class="add-item" type="button" data-pillar="${pid}"><span class="plus">+</span> Add context</button>
+      `;
+      if(collapsed[pid]) col.classList.add('collapsed');
+      board.appendChild(col);
+    });
+    renderTray();
+    wireTitles();
+    wireDragDrop();
+    wireColumnDrag();
+    wireItemEditing();
+    wireAddButtons();
+    wireCollapse();
+    updateCollapsedBoard();
+    updateEmptyStates();
+  }
+
+  function wireCollapse(){
+    document.querySelectorAll('.pillar-collapse').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        const pid = btn.dataset.pid;
+        const col = btn.closest('.pillar-col');
+        const now = !col.classList.contains('collapsed');
+        col.classList.toggle('collapsed', now);
+        collapsed[pid] = now;
+        btn.title = now ? 'Expand' : 'Collapse';
+        updateCollapsedBoard();
+      });
+    });
+  }
+
+  function updateCollapsedBoard(){
+    let any = false;
+    for(const k in collapsed){ if(collapsed[k]){ any = true; break; } }
+    document.getElementById('board').classList.toggle('has-collapsed', any);
+  }
+
+  function renderTray(){
+    const tray = document.getElementById('trayList');
+    const keys = state.pillars[0] || [];
+    tray.innerHTML = keys.map(blockItemHtml).join('');
+  }
+
+  function wireTitles(){
+    document.querySelectorAll('.pillar-title').forEach(el=>{
+      el.addEventListener('blur', ()=>{
+        const pid = el.dataset.pid;
+        state.titles[pid] = el.textContent.trim() || state.titles[pid];
+        saveState();
+      });
+      el.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter'){ e.preventDefault(); el.blur(); }
+      });
+    });
+  }
+
+  function getAllLists(){
+    return document.querySelectorAll('.block-list');
+  }
+
+  function getDragAfterElement(container, y){
+    const items = [...container.querySelectorAll('.block-item:not(.dragging)')];
+    return items.reduce((closest, child)=>{
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height/2;
+      if(offset < 0 && offset > closest.offset){
+        return { offset, element: child };
+      } else {
+        return closest;
+      }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+  }
+
+  function wireDragDrop(){
+    document.querySelectorAll('.block-item').forEach(item=>{
+      item.addEventListener('dragstart', ()=>{
+        item.classList.add('dragging');
+      });
+      item.addEventListener('dragend', ()=>{
+        item.classList.remove('dragging');
+        getAllLists().forEach(l=>l.classList.remove('drag-over'));
+        syncStateFromDOM();
+        updateEmptyStates();
+        saveState();
+      });
+    });
+
+    getAllLists().forEach(list=>{
+      list.addEventListener('dragover', e=>{
+        if(columnDragging) return;
+        e.preventDefault();
+        list.classList.add('drag-over');
+        const dragging = document.querySelector('.block-item.dragging');
+        if(!dragging) return;
+        const after = getDragAfterElement(list, e.clientY);
+        if(after == null){
+          list.appendChild(dragging);
+        } else {
+          list.insertBefore(dragging, after);
+        }
+      });
+      list.addEventListener('dragleave', ()=>{
+        list.classList.remove('drag-over');
+      });
+      list.addEventListener('drop', e=>{
+        if(columnDragging) return;
+        e.preventDefault();
+        list.classList.remove('drag-over');
+      });
+    });
+  }
+
+  // --- Column (pillar) reordering ---
+  function wireColumnDrag(){
+    document.querySelectorAll('.pillar-col').forEach(col=>{
+      const grip = col.querySelector('.pillar-grip');
+      if(!grip) return;
+      // Columns are only draggable while a grip is held, so titles stay editable
+      // and items keep their own drag behavior.
+      grip.addEventListener('mousedown', ()=> col.setAttribute('draggable','true'));
+      col.addEventListener('dragstart', e=>{
+        // Item drags bubble up to the column — ignore those so we never cancel them.
+        if(e.target !== col) return;
+        if(col.getAttribute('draggable') !== 'true'){ e.preventDefault(); return; }
+        columnDragging = true;
+        col.classList.add('dragging-col');
+        try{ e.dataTransfer.effectAllowed = 'move'; }catch(_){}
+      });
+      col.addEventListener('dragend', e=>{
+        if(e.target !== col) return;
+        col.classList.remove('dragging-col');
+        col.removeAttribute('draggable');
+        columnDragging = false;
+        syncOrderFromDOM();
+        saveState();
+        // Relabel in place instead of a full rebuild — the columns are already
+        // in the right DOM order, so this just refreshes the "Pillar N" labels.
+        relabelPillars();
+      });
+    });
+  }
+
+  function getColAfterElement(container, x){
+    const cols = [...container.querySelectorAll('.pillar-col:not(.dragging-col)')];
+    return cols.reduce((closest, child)=>{
+      const box = child.getBoundingClientRect();
+      const offset = x - box.left - box.width/2;
+      if(offset < 0 && offset > closest.offset){
+        return { offset, element: child };
+      } else {
+        return closest;
+      }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+  }
+
+  function syncOrderFromDOM(){
+    const board = document.getElementById('board');
+    const order = [...board.querySelectorAll('.pillar-col')].map(c=> +c.dataset.pid);
+    if(order.length) state.order = order;
+  }
+
+  function relabelPillars(){
+    document.getElementById('board').querySelectorAll('.pillar-col').forEach((col, i)=>{
+      const k = col.querySelector('.pillar-kicker');
+      if(k) k.textContent = 'Pillar ' + (i + 1);
+    });
+  }
+
+  function syncStateFromDOM(){
+    const lists = getAllLists();
+    const newPillars = {0:[],1:[],2:[],3:[]};
+    lists.forEach(list=>{
+      const p = list.dataset.pillar;
+      const keys = [...list.querySelectorAll('.block-item')].map(el=>el.dataset.key);
+      newPillars[p] = keys;
+    });
+    state.pillars = newPillars;
+  }
+
+  function updateEmptyStates(){
+    getAllLists().forEach(list=>{
+      if(list.children.length === 0) list.classList.add('is-empty');
+      else list.classList.remove('is-empty');
+    });
+  }
+
+  // --- Editable cards: rename title + body, add new, remove ---
+  function selectAllText(el){
+    try{
+      const r = document.createRange(); r.selectNodeContents(el);
+      const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }catch(_){}
+  }
+
+  function startEdit(card){
+    const label = card.querySelector('.bi-label');
+    const text = card.querySelector('.bi-text');
+    // Editing needs the description visible.
+    card.classList.add('open');
+    openCards[card.dataset.key] = true;
+    card.classList.add('editing');
+    card.setAttribute('draggable','false');
+    label.contentEditable = 'true';
+    text.contentEditable = 'true';
+    const editBtn = card.querySelector('.bi-edit');
+    if(editBtn){ editBtn.textContent = '✓'; editBtn.title = 'Save'; }
+    label.focus();
+    selectAllText(label);
+  }
+
+  function commitEdit(card){
+    const key = card.dataset.key;
+    const label = card.querySelector('.bi-label');
+    const text = card.querySelector('.bi-text');
+    const prev = state.blocks[key] || { label:'', text:'' };
+    state.blocks[key] = {
+      label: label.textContent.trim() || prev.label,
+      text: text.textContent.trim() || prev.text
+    };
+    label.contentEditable = 'false';
+    text.contentEditable = 'false';
+    card.classList.remove('editing');
+    card.setAttribute('draggable','true');
+    const editBtn = card.querySelector('.bi-edit');
+    if(editBtn){ editBtn.textContent = '✎'; editBtn.title = 'Edit'; }
+    saveState();
+  }
+
+  function deleteItem(card){
+    const key = card.dataset.key;
+    Object.keys(state.pillars).forEach(p=>{
+      state.pillars[p] = (state.pillars[p] || []).filter(k=> k !== key);
+    });
+    delete state.blocks[key];
+    saveState();
+    renderBoard();
+  }
+
+  function wireItemEditing(){
+    document.querySelectorAll('.block-item').forEach(card=>{
+      const editBtn = card.querySelector('.bi-edit');
+      const delBtn = card.querySelector('.bi-del');
+      if(editBtn) editBtn.addEventListener('click', e=>{
+        e.stopPropagation();
+        if(card.classList.contains('editing')) commitEdit(card);
+        else startEdit(card);
+      });
+      if(delBtn) delBtn.addEventListener('click', e=>{
+        e.stopPropagation();
+        deleteItem(card);
+      });
+      // Commit when focus leaves the card entirely (not when moving title <-> body).
+      card.addEventListener('focusout', e=>{
+        if(!card.classList.contains('editing')) return;
+        if(e.relatedTarget && card.contains(e.relatedTarget)) return;
+        commitEdit(card);
+      });
+      // Click the card to expand/collapse its description (titles stay scannable).
+      card.addEventListener('click', e=>{
+        if(card.classList.contains('editing')) return;
+        if(e.target.closest('.bi-actions') || e.target.closest('.margin-math')) return;
+        const key = card.dataset.key;
+        const nowOpen = !card.classList.contains('open');
+        card.classList.toggle('open', nowOpen);
+        openCards[key] = nowOpen;
+      });
+    });
+  }
+
+  function addItem(pid){
+    const key = 'blk_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+    state.blocks[key] = { label:'New context', text:'Describe what this includes…' };
+    state.pillars[pid] = state.pillars[pid] || [];
+    state.pillars[pid].push(key);
+    saveState();
+    renderBoard();
+    const card = document.querySelector(`.block-item[data-key="${key}"]`);
+    if(card) startEdit(card);
+  }
+
+  function wireAddButtons(){
+    document.querySelectorAll('.add-item').forEach(btn=>{
+      btn.addEventListener('click', ()=> addItem(+btn.dataset.pillar));
+    });
+  }
+
+  // Board-level wiring done once — the board element persists across renders.
+  const boardEl = document.getElementById('board');
+  boardEl.addEventListener('dragover', e=>{
+    if(!columnDragging) return;
+    e.preventDefault();
+    const dragging = boardEl.querySelector('.dragging-col');
+    if(!dragging) return;
+    const after = getColAfterElement(boardEl, e.clientX);
+    // Only touch the DOM when the drop position actually changes — avoids
+    // reordering (and reflowing) the board on every single mousemove.
+    if(after == null){
+      if(boardEl.lastElementChild !== dragging) boardEl.appendChild(dragging);
+    } else if(dragging.nextElementSibling !== after){
+      boardEl.insertBefore(dragging, after);
+    }
+  });
+  // Safety net: if a grip is pressed but no drag happens, clear the draggable flag.
+  document.addEventListener('mouseup', ()=>{
+    if(!columnDragging){
+      document.querySelectorAll('.pillar-col[draggable="true"]').forEach(c=> c.removeAttribute('draggable'));
+    }
+  });
+
+  document.getElementById('resetLayout').addEventListener('click', ()=>{
+    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    collapsed = {};
+    openCards = {};
+    saveState();
+    renderBoard();
+  });
+
+  const FAQ = [
+    ["Who is this for?", "Anyone who wants to build a real income stream online — no experience, no followers, and no need to be on camera required."],
+    ["What's the time commitment?", "The program runs over 6 months, but you can move at your own pace. Most of the heavy lifting happens in the first 30 days as you get your shop set up and your first sale in motion."],
+    ["Do I need to show my face or make content myself?", "No — the affiliate creator network handles content and promotion."],
+    ["What kind of support is included?", "1-on-1 coaching calls, a dedicated Customer Success Manager, live group calls multiple times a week, a private community, and direct ticket support any time you need help. Also 24/7 access to AI Jon — an AI trained on Jon's own knowledge."],
+    ["What happens if I get stuck?", "We diagnose exactly what's holding you back, put a plan in place to fix it, and check in regularly until it's resolved. You're never left to figure it out alone."],
+    ["How do I actually get my first sale?", "You'll follow the 30-Day Sprint — a simple, day-by-day plan that walks you through shop setup, picking your product, launching content, and getting your first sale, all within your first 30 days. <a class='inline-link' href='https://docs.google.com/spreadsheets/d/1JIVLfifRnpjLfazsRH9uss1uLLrM6edpyyxXJB4UNeE/edit?gid=1792023183#gid=1792023183' target='_blank' rel='noopener'>See the 30-Day Sprint plan →</a>"],
+    ["How is this different from other programs out there?", "This isn't just a course. It's real 1-on-1 coaching, a live community, and a team that's actually invested in the result — not just information and a login."],
+    ["What happens after the 6 months?", "The 1-on-1 personalized coaching wraps up, but you keep lifetime access to the Discord community and everything in it. By that point, the goal is that you're doing well enough on your own that you don't need us as heavily anymore. You also get the option to become a head coach at that stage, helping other members — Jon and Edward personally vet people for that role based on their success and willingness to help."]
+  ];
+
+  function renderFaq(){
+    const list = document.getElementById('faqList');
+    list.innerHTML = '';
+    FAQ.forEach(([q,a])=>{
+      const item = document.createElement('div');
+      item.className = 'faq-item';
+      item.innerHTML = `
+        <button class="faq-q"><span>${q}</span><span class="plus">+</span></button>
+        <div class="faq-a"><p>${a}</p></div>
+      `;
+      const btn = item.querySelector('.faq-q');
+      const answer = item.querySelector('.faq-a');
+      btn.addEventListener('click', ()=>{
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(o=>{
+          o.classList.remove('open');
+          o.querySelector('.faq-a').style.maxHeight = null;
+        });
+        if(!isOpen){
+          item.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+      list.appendChild(item);
+    });
+  }
+
+  renderBoard();
+  renderFaq();
+})();
+</script>
+
+<script>
+(function(){
+  // Reveal / hide the Investment & Next Steps details.
+  var btn = document.getElementById('revealInvestment');
+  var body = document.getElementById('investmentBody');
+  if(btn && body){
+    btn.addEventListener('click', function(){
+      var willOpen = body.hasAttribute('hidden');
+      if(willOpen){
+        body.removeAttribute('hidden');
+        btn.setAttribute('aria-expanded','true');
+        btn.textContent = 'Hide investment details';
+        try{ body.scrollIntoView({behavior:'smooth', block:'nearest'}); }catch(_){}
+      } else {
+        body.setAttribute('hidden','');
+        btn.setAttribute('aria-expanded','false');
+        btn.textContent = 'Investment & Next Steps';
+      }
+    });
+  }
+
+  // Editable, persistent price figures. Duplicate keys stay in sync.
+  var PKEY = 'ttw_pricing_v1';
+  var saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(PKEY)) || {}; }catch(_){ saved = {}; }
+  var nums = [].slice.call(document.querySelectorAll('.pnum'));
+
+  function syncKey(k, v){
+    nums.forEach(function(el){ if(el.dataset.price === k && el.textContent !== v) el.textContent = v; });
+  }
+  Object.keys(saved).forEach(function(k){ syncKey(k, saved[k]); });
+
+  nums.forEach(function(el){
+    var k = el.dataset.price;
+    el.addEventListener('blur', function(){
+      var v = el.textContent.trim();
+      if(!v){ v = (saved[k] != null) ? saved[k] : el.textContent; }
+      el.textContent = v;
+      saved[k] = v;
+      try{ localStorage.setItem(PKEY, JSON.stringify(saved)); }catch(_){}
+      syncKey(k, v);
+    });
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ e.preventDefault(); el.blur(); }
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var toggle = document.getElementById('hlToggle');
+  var clearBtn = document.getElementById('hlClear');
+  if(!toggle) return;
+  // Blocks/lines that can be spotlighted, resolved as the nearest match on click.
+  var SEL = '.who-card,.pillar-col,.block-item,.gets-item,.path-step,.stack-row,.price-box,.plan,.guarantee,.gtr-col,.proof-link,.faq-item,.stat,.program-title,.price-headline,.urgency,.badge,.pill,h1,h2,h3,p,li';
+  var active = false;
+
+  function clearAll(){
+    [].forEach.call(document.querySelectorAll('.hl-on'), function(el){ el.classList.remove('hl-on'); });
+  }
+  function setActive(on){
+    active = on;
+    document.body.classList.toggle('hl-mode', on);
+    toggle.classList.toggle('active', on);
+    toggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+    if(clearBtn) clearBtn.hidden = !on;
+    if(!on) clearAll();
+  }
+
+  toggle.addEventListener('click', function(e){ e.stopPropagation(); setActive(!active); });
+  if(clearBtn) clearBtn.addEventListener('click', function(e){ e.stopPropagation(); clearAll(); });
+
+  // While highlighting, block normal interactions (edit, drag, links) and toggle a spotlight instead.
+  document.addEventListener('mousedown', function(e){
+    if(active && !e.target.closest('.hl-dock')) e.preventDefault();
+  }, true);
+  document.addEventListener('click', function(e){
+    if(!active) return;
+    if(e.target.closest('.hl-dock')) return;
+    e.preventDefault(); e.stopPropagation();
+    var el = e.target.closest(SEL);
+    if(el && !el.closest('.hl-dock')) el.classList.toggle('hl-on');
+  }, true);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && active) setActive(false);
+  });
+})();
+</script>
+</body>
+</html>

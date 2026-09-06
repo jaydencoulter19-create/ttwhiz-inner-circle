@@ -1,0 +1,6 @@
+run = "npx --yes serve -s . -l 5000"
+
+# Static deployment: serve the folder as-is (single index.html, no build step).
+[deployment]
+deploymentTarget = "static"
+publicDir = "."
