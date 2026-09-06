@@ -573,21 +573,24 @@
 <script>
 (function(){
   const DEFAULT_BLOCKS = {
+    product: { label:"Product & Store Setup", text:"We set your store up the right way and help you choose your product using real data, not a guess — it needs a wow factor, it needs to solve a problem, and it needs to be easy to make content about. Includes $1,000+/month in research software like KaloData, already covered, so there's nothing extra to pay for." },
+    sprint: { label:"Your 30-Day Sprint", text:"You'll get a personalized day-by-day plan for your first 30 days — shop setup, product research, launch, and your first sale — with clear steps to check off along the way so you always know exactly where you stand." },
     curriculum: { label:"The Curriculum", text:"Lifetime access to the full TikTok Shop Masterclass — 100+ short video lessons covering shop setup, product selection, content, ads, and growing sales over time." },
-    product: { label:"Winning Product Process", text:"We set your store up the right way and help you choose your product using real data, not a guess — it needs a wow factor, it needs to solve a problem, and it needs to be easy to make content about." },
-    affiliate: { label:"Affiliate Creator Network", text:"A network of creators makes content and promotes your product for you — they only get paid when your product sells, so there's no risk to you." },
-    scaling: { label:"Scaling With Ads", text:"Once a product is selling, run ads the right way to grow faster — plus bring on more affiliates and open additional stores as income grows." },
-    coaching: { label:"1-on-1 Coaching & Group Calls", text:"A dedicated Customer Success Manager keeps you on track week by week, a 1-on-1 strategy call to map an exact game plan, live group coaching calls multiple times a week, and ticket support whenever you need it." },
+    affiliate: { label:"Viral Creator Engine", text:"You don't have to make the videos yourself. We connect you with a network of vetted creators who make content and promote your product for you — they only get paid when your product sells, so there's no risk to you." },
+    scripts: { label:"Done-For-You Outreach Scripts", text:"You're never starting from a blank page when it comes to recruiting affiliates. You'll get ready-to-use scripts and message templates for reaching out to creators, so whether you do the outreach yourself or lean on our creator network, you're never guessing what to say." },
+    scaling: { label:"Scaling With Ads", text:"Once you've got a product selling, we teach you how to run ads the right way to grow faster — turning a small budget into consistent, repeatable sales. From there, bring on more affiliates and open additional stores, so income keeps growing instead of capping out." },
+    coaching: { label:"1-on-1 Coaching & Group Calls", text:"A dedicated Customer Success Manager keeps you on track week by week and gets you on pace immediately, with a 1-on-1 strategy call with our Head Coaches to map an exact game plan for you, plus live group coaching calls multiple times a week and ticket support whenever you need it." },
+    aijon: { label:"24/7 AI Jon Support", text:"You also get access to AI Jon — an AI trained on all of Jon's own knowledge — so you can get real answers any time, day or night, on top of your CSM and coaches, not instead of them." },
     community: { label:"Community & Lifetime Access", text:"A private, active community of other members building alongside you — support, ideas, and accountability the whole way through." }
   };
 
   const DEFAULT_STATE = {
     order: [1, 2, 3],
-    titles: { 1:"Store Setup & Winning Product", 2:"Viral Affiliates", 3:"Coaching & Scaling" },
+    titles: { 1:"Launch & Foundations", 2:"Affiliate Creators + Scaling", 3:"1-1 Coaching & Support" },
     pillars: {
-      1: ["curriculum","product"],
-      2: ["affiliate"],
-      3: ["scaling","coaching","community"],
+      1: ["product","sprint","curriculum"],
+      2: ["affiliate","scripts","scaling"],
+      3: ["coaching","aijon","community"],
       0: []
     },
     blocks: JSON.parse(JSON.stringify(DEFAULT_BLOCKS))
