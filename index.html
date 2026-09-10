@@ -574,7 +574,8 @@
 (function(){
   const DEFAULT_BLOCKS = {
     product: { label:"Store Setup, Product & Curriculum", text:"We set your store up right and help you pick a winning product using real data, not a guess — plus lifetime access to the full TikTok Shop Masterclass, 100+ short lessons covering setup, content, ads, and scaling. Includes $1,000+/month in research software like KaloData, already covered." },
-    sprint: { label:"Your 30-Day Sprint", text:"A personalized day-by-day plan for your first 30 days — shop setup, product research, launch, first sale — with clear steps to check off so you always know where you stand." },
+    // Key stays "sprint" so reps' saved layouts keep this card where they put it.
+    sprint: { label:"Your Roadmap", text:"A step-by-step system that takes you from signup to your first sale, phase by phase: shop approval, connecting your tools, building your first 10 products, your strategy call, your listing, and scaling from there. Each phase has clear steps to check off, so you always know exactly where you stand and what's next." },
     affiliate: { label:"Viral Creator Network", text:"We connect you with vetted creators who make content and promote your product — they only get paid when it sells, so there's no risk to you. You'll also get done-for-you outreach scripts and templates, so whether it's us or you reaching out, you're never guessing what to say." },
     scaling: { label:"Scaling Your Store", text:"From here, we teach you how to bring on more affiliates and open more stores, so income keeps growing instead of capping out. We also teach you how to run ads the right way, turning a small budget into consistent sales." },
     coaching: { label:"Coaching, Strategy & AI Support", text:"A dedicated Customer Success Manager keeps you on track weekly, a 1-on-1 strategy call with our Head Coaches maps your exact game plan, live group calls multiple times a week, plus 24/7 access to AI Jon for real answers any time, day or night." },
@@ -714,7 +715,7 @@
         </ul>
       </details>`;
 
-  const SPRINT_LINK_HTML = `<a class="bi-link" href="https://docs.google.com/spreadsheets/d/1JIVLfifRnpjLfazsRH9uss1uLLrM6edpyyxXJB4UNeE/edit?gid=1792023183#gid=1792023183" target="_blank" rel="noopener">View the 30-Day Sprint plan →</a>`;
+  const ROADMAP_LINK_HTML = `<a class="bi-link" href="https://roadmap-production-0ead.up.railway.app/admin/prospects" target="_blank" rel="noopener">View Your Roadmap →</a>`;
 
   function blockItemHtml(key){
     const b = state.blocks[key];
@@ -728,7 +729,7 @@
       <b class="bi-label">${escapeHtml(b.label)}</b>
       <span class="bi-text">${escapeHtml(b.text)}</span>
       ${key === 'product' ? MARGIN_MATH_HTML : ''}
-      ${/\bsprint\b/i.test(b.label || '') ? SPRINT_LINK_HTML : ''}
+      ${/\broadmap\b/i.test(b.label || '') ? ROADMAP_LINK_HTML : ''}
     </div>`;
   }
 
