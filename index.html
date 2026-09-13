@@ -262,24 +262,27 @@
   .urgency{display:inline-flex; align-items:center; gap:9px; margin-top:16px; padding:8px 14px; border-radius:999px;
     background:rgba(229,105,91,.12); border:1px solid rgba(229,105,91,.32); color:#F0A79D; font-size:13px; font-weight:700;}
   .udot{width:7px; height:7px; border-radius:50%; background:var(--danger); box-shadow:0 0 0 4px rgba(229,105,91,.15); flex-shrink:0;}
-  .price-box{margin-top:20px; display:flex; flex-direction:column; align-items:flex-start; gap:11px; padding:20px;
+  /* Two ways to enroll: financing vs. pay in full */
+  .pay-label{margin-top:22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:16px; color:var(--cream);}
+  .pay-options{margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media (max-width:700px){.pay-options{grid-template-columns:1fr;}}
+  .price-box{display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding:20px;
     background:var(--ink); border:1px solid var(--line-2); border-radius:14px;}
-  .price-tier{font-size:13px; font-weight:800; color:var(--gold); font-family:'Bricolage Grotesque',sans-serif;}
-  .price-line{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;}
+  .price-box.best{border-color:rgba(231,163,62,.45); background:linear-gradient(180deg,rgba(231,163,62,.08),transparent 60%), var(--ink);}
+  .price-tier{display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; font-weight:800; color:var(--gold); font-family:'Bricolage Grotesque',sans-serif;}
+  .best-tag{font-size:11.5px; font-weight:800; color:#20160A; background:var(--gold); padding:3px 9px; border-radius:999px;}
+  .pay-fig{display:flex; flex-direction:column; align-items:flex-start; gap:6px;}
+  .pay-cap{font-size:13px; font-weight:700; color:var(--muted);}
+  .price-line{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
   .price-was{color:var(--faint); font-size:16px; font-weight:600;}
-  .price-now{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(34px,6vw,52px); color:var(--cream); line-height:1; font-variant-numeric:tabular-nums;}
-  .price-save{font-size:13px; font-weight:800; color:#20160A; background:var(--gold); padding:6px 12px; border-radius:999px;}
-  .price-save .pnum:hover, .price-save .pnum:focus{background:rgba(0,0,0,.14); border-bottom-color:#20160A;}
-
-  .plans{margin-top:16px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
-  .plans-2{grid-template-columns:1fr 1fr;}
-  @media (max-width:640px){.plans{grid-template-columns:1fr;}}
-  .plan{background:var(--ink); border:1px solid var(--line); border-radius:12px; padding:14px 15px;}
-  .plan-name{font-size:12.5px; color:var(--faint); font-weight:700;}
-  .plan-amt{margin-top:5px; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:21px; color:var(--cream); font-variant-numeric:tabular-nums;}
-  .plan-note{margin-top:3px; font-size:12px; color:var(--muted);}
-  .plan-callout{display:block; margin-top:8px; padding:7px 10px; border-radius:8px; background:var(--gold-soft); border:1px solid rgba(231,163,62,.32);
+  .price-now{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(34px,6vw,48px); color:var(--cream); line-height:1; font-variant-numeric:tabular-nums;}
+  .pay-split{align-self:stretch; padding-top:14px; border-top:1px solid var(--line);}
+  .pay-mo{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:26px; color:var(--cream); line-height:1.15; font-variant-numeric:tabular-nums;}
+  .pay-mo small{font-size:16px; font-weight:700; color:var(--muted);}
+  .plan-note{font-size:13px; color:var(--muted);}
+  .plan-callout{display:block; align-self:stretch; margin-top:4px; padding:7px 10px; border-radius:8px; background:var(--gold-soft); border:1px solid rgba(231,163,62,.32);
     color:var(--gold); font-size:14px; font-weight:700; line-height:1.35;}
+  .price-box.best .plan-callout{margin-top:auto;}
 
   .guarantee{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius); padding:24px;}
   .guarantee-badge{display:inline-flex; align-items:center; gap:8px; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; color:var(--gold); font-size:14px;}
@@ -491,17 +494,33 @@
         <div class="price-headline"><span class="pnum" contenteditable="true" data-price="vtotal">$17,000</span> in value. One decision.</div>
         <p class="price-sub">Six months of coaching, tools, community, and the exact system Jon used to generate <span class="pnum" contenteditable="true" data-price="studentsales">$3M+</span> in student sales — built to get your shop seasoned before Q4.</p>
         <div class="urgency"><span class="udot"></span>Lock in before Q4 — this pricing won't last.</div>
-        <div class="price-box">
-          <div class="price-tier">6-Month Mentorship</div>
-          <div class="price-line">
-            <span class="price-was">Enrollment <s><span class="pnum" contenteditable="true" data-price="enroll">$12,000</span></s></span>
-            <span class="price-now"><span class="pnum" contenteditable="true" data-price="price">$9,500</span></span>
+        <div class="pay-label">Two ways to enroll</div>
+        <div class="pay-options">
+          <div class="price-box">
+            <div class="price-tier">Option 1 · Financing</div>
+            <div class="pay-fig">
+              <span class="pay-cap">Financed price</span>
+              <div class="price-line">
+                <span class="price-was">Enrollment <s><span class="pnum" contenteditable="true" data-price="enroll">$12,000</span></s></span>
+                <span class="price-now"><span class="pnum" contenteditable="true" data-price="finprice">$9,200</span></span>
+              </div>
+            </div>
+            <div class="pay-fig pay-split">
+              <span class="pay-cap">Your monthly payment if financed</span>
+              <span class="pay-mo"><span class="pnum" contenteditable="true" data-price="molow">$380</span>–<span class="pnum" contenteditable="true" data-price="mohigh">$895</span><small>/mo</small></span>
+              <span class="plan-note">Your <span class="pnum" contenteditable="true" data-price="finprice">$9,200</span>, split over <span class="pnum" contenteditable="true" data-price="planmin">12</span>–<span class="pnum" contenteditable="true" data-price="planmax">36</span> months</span>
+              <span class="plan-callout">Credit dependent, we see what you qualify for</span>
+            </div>
           </div>
-          <span class="price-save">Save <span class="pnum" contenteditable="true" data-price="save">$2,500</span> today</span>
-        </div>
-        <div class="plans plans-2">
-          <div class="plan"><div class="plan-name">Pay in full</div><div class="plan-amt"><span class="pnum" contenteditable="true" data-price="payfull">$9,500</span></div><div class="plan-note">Best value — save the most<span class="plan-callout">You save <span class="pnum" contenteditable="true" data-price="payfullsave">$2,500</span></span></div></div>
-          <div class="plan"><div class="plan-name">Financing</div><div class="plan-amt"><span class="pnum" contenteditable="true" data-price="planmo">$895</span>/mo</div><div class="plan-note">Split over <span class="pnum" contenteditable="true" data-price="planmin">12</span>–<span class="pnum" contenteditable="true" data-price="planmax">36</span>mo<span class="plan-callout">Credit dependent, we see what you qualify for</span></div></div>
+          <div class="price-box best">
+            <div class="price-tier">Option 2 · Pay in full <span class="best-tag">Best value</span></div>
+            <div class="pay-fig">
+              <span class="pay-cap">Pay-in-full price</span>
+              <span class="price-now"><span class="pnum" contenteditable="true" data-price="pifprice">$7,500</span></span>
+            </div>
+            <span class="plan-note">One payment upfront, the lowest total price.</span>
+            <span class="plan-callout">Save <span class="pnum" contenteditable="true" data-price="pifsave">$1,700</span> vs. the <span class="pnum" contenteditable="true" data-price="finprice">$9,200</span> financed price</span>
+          </div>
         </div>
       </div>
 
@@ -1201,7 +1220,7 @@
   var clearBtn = document.getElementById('hlClear');
   if(!toggle) return;
   // Blocks/lines that can be spotlighted, resolved as the nearest match on click.
-  var SEL = '.who-card,.pillar-col,.block-item,.gets-item,.path-step,.stack-row,.price-box,.plan,.guarantee,.gtr-col,.proof-link,.faq-item,.stat,.program-title,.price-headline,.urgency,.badge,.pill,h1,h2,h3,p,li';
+  var SEL = '.who-card,.pillar-col,.block-item,.gets-item,.path-step,.stack-row,.price-box,.pay-split,.guarantee,.gtr-col,.proof-link,.faq-item,.stat,.program-title,.price-headline,.urgency,.badge,.pill,h1,h2,h3,p,li';
   var active = false;
 
   function clearAll(){
