@@ -22,8 +22,8 @@
        --on-accent            text on an accent fill
        --title-a / --title-b  the big gradient program name
      Role tokens decide where the accent shows up in each theme. Dark keeps them
-     neutral (near-black, light blue only as a touch); the white version and gold
-     point them at the accent:
+     restrained (near-black canvas, softer blue tints and glows); the white version
+     and gold point them fully at the accent:
        --display-ink  big stat numbers      --punch-ink   the closing line
        --tint-bg / --tint-line  tinted boxes (total row, callout, tag pill, tab numbers)
        --num-ink      tab and list numbers  --glow-rgb    soft radial glows
@@ -46,14 +46,14 @@
     --accent-rgb:91,184,245;
     --on-accent:#051F33;
     --title-a:#FFFFFF;
-    --title-b:#C9CED6;
-    --display-ink:var(--cream);
-    --punch-ink:var(--cream);
-    --tint-bg:rgba(255,255,255,.05);
-    --tint-line:var(--line-2);
-    --num-ink:var(--muted);
-    --glow-rgb:255,255,255;
-    --price-line:rgba(var(--accent-rgb),.3);
+    --title-b:#9BD5FA;
+    --display-ink:var(--accent-ink);
+    --punch-ink:var(--accent-ink);
+    --tint-bg:rgba(var(--accent-rgb),.08);
+    --tint-line:rgba(var(--accent-rgb),.22);
+    --num-ink:var(--accent-ink);
+    --glow-rgb:140,200,245;
+    --price-line:rgba(var(--accent-rgb),.38);
     --danger:#E5695B;
     --danger-rgb:229,105,91;
     --radius:18px;
@@ -71,8 +71,8 @@
     --line-2:rgba(16,36,62,.15);
     --line-3:rgba(16,36,62,.28);
     --cream:#0E1B2B;
-    --muted:#4B5B70;
-    --faint:#5D6C80;
+    --muted:#414F63;
+    --faint:#56657A;
     --accent:#5BB8F5;
     --accent-2:#8ACFFA;
     --accent-ink:#0A6CB0;
@@ -132,6 +132,9 @@
   }
   *{box-sizing:border-box;}
   body{margin:0; background:var(--ink); color:var(--cream); line-height:1.55; -webkit-font-smoothing:antialiased;}
+  /* On white, body and secondary text get a medium weight and native smoothing so it
+     doesn't read thin; antialiased smoothing only flatters light text on dark. */
+  :root[data-theme="light"] body{font-weight:500; -webkit-font-smoothing:auto;}
   h1,h2,h3,h4{font-family:'Bricolage Grotesque','Sora',system-ui,sans-serif; letter-spacing:-.02em; margin:0; line-height:1.1; font-weight:800; text-wrap:balance;}
   p{margin:0;}
   a{color:inherit;}
