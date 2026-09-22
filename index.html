@@ -265,9 +265,6 @@
     border:1px solid rgba(231,163,62,.45); border-radius:var(--radius); padding:24px 24px 22px;
     background:radial-gradient(520px 280px at 100% -30%, rgba(231,163,62,.16), transparent 60%), var(--ink-2);}
   .price-card .eyebrow{margin-bottom:0;}
-  .urgency{display:inline-flex; align-items:center; gap:9px; margin-top:auto; padding:8px 14px; border-radius:999px;
-    background:rgba(229,105,91,.12); border:1px solid rgba(229,105,91,.32); color:#F0A79D; font-size:13px; font-weight:700;}
-  .udot{width:7px; height:7px; border-radius:50%; background:var(--danger); box-shadow:0 0 0 4px rgba(229,105,91,.15); flex-shrink:0;}
   .pay-fig{display:flex; flex-direction:column; align-items:flex-start; gap:6px;}
   .pay-cap{font-size:13px; font-weight:700; color:var(--muted);}
   .price-line{display:flex; flex-direction:column; align-items:flex-start; gap:8px;}
@@ -275,6 +272,10 @@
   .price-was{display:inline-flex; align-items:baseline; gap:10px; color:var(--muted); font-size:15px; font-weight:700;}
   .price-was s{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(24px,3.6vw,30px); color:var(--muted); line-height:1;
     font-variant-numeric:tabular-nums; text-decoration-line:line-through; text-decoration-color:var(--danger); text-decoration-thickness:3px;}
+  /* Worked out from the two figures above it, never typed in. */
+  .price-save{margin-top:4px; font-size:14px; font-weight:600; color:var(--muted);}
+  .price-save b{color:var(--gold); font-weight:800;}
+  .price-save[hidden]{display:none;}
   .price-now{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(34px,6vw,48px); color:var(--cream); line-height:1; font-variant-numeric:tabular-nums;}
   .pay-split{align-self:stretch; padding-top:14px; border-top:1px solid var(--line);}
   .pay-mo{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:26px; color:var(--cream); line-height:1.15; font-variant-numeric:tabular-nums;}
@@ -503,15 +504,14 @@
               <span class="price-was">Enrollment <s><span class="pnum" contenteditable="true" data-price="enroll">$12,000</span></s></span>
               <span class="price-now"><span class="pnum" contenteditable="true" data-price="finprice">$9,200</span></span>
             </div>
+            <span class="price-save" id="priceSave" hidden><b>$2,800 off</b> for joining from the webinar</span>
           </div>
           <div class="pay-fig pay-split">
             <span class="pay-cap">Your monthly payment</span>
             <span class="pay-mo"><span class="pnum" contenteditable="true" data-price="molow">$380</span>–<span class="pnum" contenteditable="true" data-price="mohigh">$895</span><small>/mo</small></span>
             <span class="plan-note">Your <span class="pnum" contenteditable="true" data-price="finprice">$9,200</span>, split over <span class="pnum" contenteditable="true" data-price="planmin">12</span>–<span class="pnum" contenteditable="true" data-price="planmax">36</span> months</span>
             <span class="plan-callout">Credit dependent, we see what you qualify for</span>
-          </div>
-          <div class="urgency"><span class="udot"></span>Lock in before Q4 — this pricing won't last.</div>
-        </div>
+          </div>        </div>
         </div>
       </div>
 
@@ -1171,15 +1171,38 @@
     nums.forEach(function(el){ if(el.dataset.price === k && el.textContent !== v) el.textContent = v; });
   }
 
+  // "$X off for joining from the webinar" is the gap between the struck
+  // enrollment anchor and the price, worked out live as a rep edits either.
+  // `src` is the figure being typed in, which its duplicates only match on blur.
+  var saveLine = document.getElementById('priceSave');
+  function money(s){
+    var t = String(s).toLowerCase().replace(/[^0-9.k]/g, '');
+    var n = parseFloat(t);
+    return t.indexOf('k') !== -1 ? n * 1000 : n;
+  }
+  function updateSave(src){
+    if(!saveLine) return;
+    function figure(k){
+      var el = src && src.dataset.price === k ? src : document.querySelector('.pnum[data-price="' + k + '"]');
+      return el ? money(el.textContent) : NaN;
+    }
+    var off = Math.round(figure('enroll') - figure('finprice'));
+    saveLine.hidden = !(off > 0);
+    if(off > 0) saveLine.querySelector('b').textContent = '$' + off.toLocaleString('en-US') + ' off';
+  }
+
   // Drop edits that now match the default or whose figure is gone, apply the rest.
   Object.keys(edits).forEach(function(k){
     if(!(k in defaults) || edits[k] === defaults[k]) delete edits[k];
   });
   Object.keys(edits).forEach(function(k){ syncKey(k, edits[k]); });
   saveEdits();
+  updateSave();
 
   nums.forEach(function(el){
     var k = el.dataset.price;
+    var feedsSave = k === 'enroll' || k === 'finprice';
+    if(feedsSave) el.addEventListener('input', function(){ updateSave(el); });
     el.addEventListener('blur', function(){
       // An emptied figure goes back to what it showed before.
       var v = el.textContent.trim() || ((k in edits) ? edits[k] : defaults[k]);
@@ -1187,6 +1210,7 @@
       else edits[k] = v;
       saveEdits();
       syncKey(k, v);
+      if(feedsSave) updateSave();
     });
     el.addEventListener('keydown', function(e){
       if(e.key === 'Enter'){ e.preventDefault(); el.blur(); }
@@ -1201,7 +1225,7 @@
   var clearBtn = document.getElementById('hlClear');
   if(!toggle) return;
   // Blocks/lines that can be spotlighted, resolved as the nearest match on click.
-  var SEL = '.who-card,.pillar-col,.block-item,.gets-item,.path-step,.stack-row,.pay-fig,.guarantee,.proof-link,.faq-item,.stat,.program-title,.urgency,.badge,.pill,h1,h2,h3,p,li';
+  var SEL = '.who-card,.pillar-col,.block-item,.gets-item,.path-step,.stack-row,.pay-fig,.guarantee,.proof-link,.faq-item,.stat,.program-title,.badge,.pill,h1,h2,h3,p,li';
   var active = false;
 
   function clearAll(){
