@@ -489,11 +489,9 @@
     <div class="proof-card">
       <div class="eyebrow">Testimonials & proof</div>
       <h2 class="section-title">The real proof is in the results</h2>
-      <p>See it from current members directly. Live webinars also run twice a week, breaking this whole thing down in more depth.</p>
+      <p>See it from current members directly.</p>
       <div class="proof-links">
-        <a class="proof-link" href="https://www.ttwhizprogram.com/inner-circle-proof" target="_blank" rel="noopener">See testimonials & results <span class="arrow">→</span></a>
-        <a class="proof-link" href="https://us06web.zoom.us/rec/share/-Gnn_rTlKILwnzMx2ha7oHkBzbAWvJ0H3N5u5ZZpzxATSEw2pH_9rDXRcZlBaEne.dqkF0eaa6g4228jr" target="_blank" rel="noopener">Watch the most recent webinar replay <span class="arrow">→</span></a>
-        <a class="proof-link" href="https://www.ttwhizprogram.com/webinar-recording-page-ttw" target="_blank" rel="noopener">Register for the next live webinar <span class="arrow">→</span></a>
+        <a class="proof-link" href="https://www.ttwhizprogram.com/call-confirmed-q" target="_blank" rel="noopener">See testimonials & results <span class="arrow">→</span></a>
         <a class="proof-link" href="https://roadmap-production-0ead.up.railway.app/admin/prospects" target="_blank" rel="noopener">View Your Roadmap <span class="arrow">→</span></a>
       </div>
     </div>
@@ -829,6 +827,14 @@
     const board = document.getElementById('board');
     board.dataset.dir = dir;
     board.querySelectorAll('.deck-slide').forEach(s=> s.classList.toggle('is-active', s.dataset.slide === current));
+    // Landing on a pillar opens all its cards; the rep can still close any of
+    // them. Re-renders ('none') keep whatever the rep closed.
+    if(dir !== 'none'){
+      board.querySelectorAll(`.deck-slide[data-slide="${current}"] .block-item`).forEach(card=>{
+        card.classList.add('open');
+        openCards[card.dataset.key] = true;
+      });
+    }
     const steps = document.getElementById('deckSteps');
     steps.querySelectorAll('.deck-step').forEach(s=>{
       const on = s.dataset.slide === current;
