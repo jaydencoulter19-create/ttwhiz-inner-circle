@@ -782,7 +782,7 @@
     intro.dataset.slide = 'intro';
     intro.innerHTML = `
       <span class="pillar-kicker">Inside the Inner Circle</span>
-      <h3 class="intro-title">Three pillars, built around you</h3>
+      <h3 class="intro-title">Pillars built around you</h3>
       <p class="intro-sub">We'll walk through each one and focus on what matters most for you.</p>
       <ol class="intro-list">
         ${state.order.map((pid, idx)=>`<li><button class="intro-go" type="button" data-go="${pid}"><span class="step-num">${idx+1}</span><span class="go-title">${escapeHtml(state.titles[pid])}</span><span class="go-arrow" aria-hidden="true">→</span></button></li>`).join('')}
