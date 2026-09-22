@@ -20,26 +20,40 @@
        --accent-soft          tinted backgrounds
        --accent-rgb           for rgba() borders and glows
        --on-accent            text on an accent fill
-       --title-a / --title-b  the big gradient program name */
+       --title-a / --title-b  the big gradient program name
+     Role tokens decide where the accent shows up in each theme. Dark keeps them
+     neutral (near-black, light blue only as a touch); the white version and gold
+     point them at the accent:
+       --display-ink  big stat numbers      --punch-ink   the closing line
+       --tint-bg / --tint-line  tinted boxes (total row, callout, tag pill, tab numbers)
+       --num-ink      tab and list numbers  --glow-rgb    soft radial glows
+       --price-line   the price card's border */
   :root{
     color-scheme: dark;
-    --ink:#0E1217;
-    --ink-2:#151B22;
-    --ink-3:#1B222B;
-    --line:rgba(238,243,250,.08);
-    --line-2:rgba(238,243,250,.15);
-    --line-3:rgba(238,243,250,.3);
-    --cream:#EEF3F9;
-    --muted:#A6B0BE;
-    --faint:#727C8A;
+    --ink:#0B0C0E;
+    --ink-2:#131417;
+    --ink-3:#1A1C20;
+    --line:rgba(255,255,255,.08);
+    --line-2:rgba(255,255,255,.14);
+    --line-3:rgba(255,255,255,.28);
+    --cream:#F2F3F5;
+    --muted:#A2A7AF;
+    --faint:#747A83;
     --accent:#5BB8F5;
     --accent-2:#8ACFFA;
     --accent-ink:#6CC2F8;
     --accent-soft:rgba(91,184,245,.13);
     --accent-rgb:91,184,245;
     --on-accent:#051F33;
-    --title-a:var(--accent-2);
-    --title-b:var(--accent);
+    --title-a:#FFFFFF;
+    --title-b:#C9CED6;
+    --display-ink:var(--cream);
+    --punch-ink:var(--cream);
+    --tint-bg:rgba(255,255,255,.05);
+    --tint-line:var(--line-2);
+    --num-ink:var(--muted);
+    --glow-rgb:255,255,255;
+    --price-line:rgba(var(--accent-rgb),.3);
     --danger:#E5695B;
     --danger-rgb:229,105,91;
     --radius:18px;
@@ -67,12 +81,28 @@
     --on-accent:#06253D;
     --title-a:#1E95E0;
     --title-b:#0A6CB0;
+    --display-ink:var(--accent-ink);
+    --punch-ink:var(--accent-ink);
+    --tint-bg:var(--accent-soft);
+    --tint-line:rgba(var(--accent-rgb),.32);
+    --num-ink:var(--accent-ink);
+    --glow-rgb:var(--accent-rgb);
+    --price-line:rgba(var(--accent-rgb),.45);
     --danger:#D2412F;
     --danger-rgb:210,65,47;
     --shadow:0 1px 2px rgba(16,36,62,.06), 0 16px 36px -20px rgba(16,36,62,.28);
   }
-  :root[data-accent="gold"]{
+  /* Gold, dark: the original look, gold used generously. */
+  :root[data-accent="gold"]:not([data-theme="light"]){
+    --ink:#0E1217;
+    --ink-2:#151B22;
+    --ink-3:#1B222B;
+    --line:rgba(238,243,250,.08);
+    --line-2:rgba(238,243,250,.15);
+    --line-3:rgba(238,243,250,.3);
     --cream:#F3EFE7;
+    --muted:#A6B0BE;
+    --faint:#727C8A;
     --accent:#E7A33E;
     --accent-2:#F4B75C;
     --accent-ink:#E7A33E;
@@ -81,9 +111,16 @@
     --on-accent:#20160A;
     --title-a:#F4B75C;
     --title-b:#E7A33E;
+    --display-ink:var(--accent-ink);
+    --punch-ink:var(--accent-ink);
+    --tint-bg:var(--accent-soft);
+    --tint-line:rgba(var(--accent-rgb),.32);
+    --num-ink:var(--accent-ink);
+    --glow-rgb:var(--accent-rgb);
+    --price-line:rgba(var(--accent-rgb),.45);
   }
+  /* Gold, white version: only the accent changes; the light role tokens follow it. */
   :root[data-theme="light"][data-accent="gold"]{
-    --cream:#0E1B2B;
     --accent:#E7A33E;
     --accent-2:#F4B75C;
     --accent-ink:#9A5A00;
@@ -106,16 +143,16 @@
     padding:14px 22px; border-radius:12px; cursor:pointer; text-decoration:none; border:1px solid transparent;
     transition:transform .15s, box-shadow .2s, background .2s, border-color .2s, color .2s;}
   .btn-primary{background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:var(--on-accent);
-    box-shadow:0 10px 30px -10px rgba(var(--accent-rgb),.55);}
-  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 16px 42px -12px rgba(var(--accent-rgb),.72);}
+    box-shadow:0 8px 24px -12px rgba(var(--accent-rgb),.5);}
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 12px 32px -12px rgba(var(--accent-rgb),.6);}
   .btn-ghost{background:transparent; color:var(--cream); border-color:var(--line-2);}
   .btn-ghost:hover{border-color:var(--accent-ink); color:var(--accent-ink);}
 
   /* Hero */
   .hero{position:relative; overflow:hidden; padding:58px 0 64px; border-bottom:1px solid var(--line);
     background:
-      radial-gradient(900px 440px at 50% -12%, rgba(var(--accent-rgb),.15), transparent 60%),
-      radial-gradient(760px 520px at 100% 0%, rgba(var(--accent-rgb),.05), transparent 55%),
+      radial-gradient(900px 440px at 50% -12%, rgba(var(--glow-rgb),.15), transparent 60%),
+      radial-gradient(760px 520px at 100% 0%, rgba(var(--glow-rgb),.05), transparent 55%),
       var(--ink);}
   .hero-inner{position:relative; z-index:1;}
   .brandrow{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
@@ -130,7 +167,7 @@
   .program-title{display:flex; flex-direction:column; align-items:center; gap:13px; margin-top:22px;}
   .program-name{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(42px,6.8vw,66px); letter-spacing:-.025em; line-height:.95;
     color:var(--title-b); background:linear-gradient(180deg,var(--title-a),var(--title-b)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
-  .program-tag{display:inline-flex; align-items:center; font-size:13px; font-weight:800; letter-spacing:.03em; color:var(--accent-ink); background:var(--accent-soft); border:1px solid rgba(var(--accent-rgb),.32); padding:8px 15px; border-radius:999px; white-space:nowrap;}
+  .program-tag{display:inline-flex; align-items:center; font-size:13px; font-weight:800; letter-spacing:.03em; color:var(--accent-ink); background:var(--tint-bg); border:1px solid var(--tint-line); padding:8px 15px; border-radius:999px; white-space:nowrap;}
   .hero-kicker{margin-top:14px; color:var(--accent-ink); font-weight:700; font-size:15px; font-family:'Bricolage Grotesque',sans-serif; letter-spacing:.01em;}
   .hero h1{font-size:clamp(30px,5.2vw,50px); margin-top:12px; max-width:720px; line-height:1.06;}
   .hero h1 em{font-style:normal; color:var(--accent-ink);}
@@ -158,7 +195,7 @@
   .whynow-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px;}
   @media (max-width:700px){.whynow-grid{grid-template-columns:1fr;}}
   .whynow-stat{background:var(--ink-2); border:1px solid var(--line); border-radius:14px; padding:20px;}
-  .whynow-stat b{display:block; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(28px,4vw,38px); color:var(--accent-ink); line-height:1; letter-spacing:-.02em; font-variant-numeric:tabular-nums;}
+  .whynow-stat b{display:block; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(28px,4vw,38px); color:var(--display-ink); line-height:1; letter-spacing:-.02em; font-variant-numeric:tabular-nums;}
   .whynow-stat span{display:block; margin-top:10px; font-size:13.5px; color:var(--muted); font-weight:600; line-height:1.45;}
 
   /* Sections */
@@ -194,7 +231,7 @@
   .deck-step:hover{color:var(--cream); border-color:var(--line-3);}
   .deck-step.is-active{color:var(--cream); border-color:var(--accent-ink); background:var(--accent-soft);}
   .deck-step:focus-visible, .deck-arrow:focus-visible, .intro-go:focus-visible{outline:2px solid var(--accent-ink); outline-offset:2px;}
-  .step-num{flex-shrink:0; width:20px; height:20px; border-radius:6px; background:var(--accent-soft); color:var(--accent-ink);
+  .step-num{flex-shrink:0; width:20px; height:20px; border-radius:6px; background:var(--tint-bg); color:var(--num-ink);
     display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:11.5px;}
   .deck-step.is-active .step-num{background:var(--accent); color:var(--on-accent);}
   .step-title{max-width:200px; overflow:hidden; text-overflow:ellipsis;}
@@ -323,7 +360,7 @@
 
   /* Proof */
   .proof-card{margin-top:24px; position:relative; overflow:hidden; border:1px solid var(--line-2); border-radius:var(--radius);
-    padding:30px 26px; background:radial-gradient(620px 320px at 92% -25%, rgba(var(--accent-rgb),.12), transparent 60%), var(--ink-2);}
+    padding:30px 26px; background:radial-gradient(620px 320px at 92% -25%, rgba(var(--glow-rgb),.12), transparent 60%), var(--ink-2);}
   .proof-card p{color:var(--muted); font-size:15px; max-width:640px;}
   .proof-links{margin-top:18px; display:grid; grid-template-columns:1fr 1fr; gap:10px;}
   @media (max-width:640px){.proof-links{grid-template-columns:1fr;}}
@@ -346,7 +383,7 @@
 
   /* Closing CTA */
   .cta-band{position:relative; overflow:hidden; text-align:center; padding:58px 0; border-bottom:1px solid var(--line);
-    background:radial-gradient(720px 340px at 50% -35%, rgba(var(--accent-rgb),.18), transparent 60%), var(--ink-2);}
+    background:radial-gradient(720px 340px at 50% -35%, rgba(var(--glow-rgb),.18), transparent 60%), var(--ink-2);}
   .cta-band h2{font-size:clamp(24px,3.8vw,34px); max-width:640px; margin:0 auto;}
   .cta-band p{margin:14px auto 0; max-width:520px; color:var(--muted); font-size:16px;}
   .cta-band .cta-row{justify-content:center;}
@@ -369,7 +406,7 @@
   .stack-row:last-child{border-bottom:none;}
   .stack-row .lbl{font-size:14.5px; color:var(--cream); font-weight:600; text-wrap:balance;}
   .stack-row .val{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap;}
-  .stack-row.total{background:var(--accent-soft); border-radius:12px;}
+  .stack-row.total{background:var(--tint-bg); border-radius:12px;}
   .stack-row.total .lbl{font-family:'Bricolage Grotesque',sans-serif; font-weight:800;}
   .stack-row.total .val{color:var(--accent-ink); font-size:20px;}
 
@@ -381,8 +418,8 @@
   .offer-grid .stack{display:flex; flex-direction:column;}
   .offer-grid .stack-row{flex:1;}
   .price-card{position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:flex-start; gap:16px;
-    border:1px solid rgba(var(--accent-rgb),.45); border-radius:var(--radius); padding:24px 24px 22px;
-    background:radial-gradient(520px 280px at 100% -30%, rgba(var(--accent-rgb),.16), transparent 60%), var(--ink-2);}
+    border:1px solid var(--price-line); border-radius:var(--radius); padding:24px 24px 22px;
+    background:radial-gradient(520px 280px at 100% -30%, rgba(var(--glow-rgb),.16), transparent 60%), var(--ink-2);}
   .price-card .eyebrow{margin-bottom:0;}
   .pay-fig{display:flex; flex-direction:column; align-items:flex-start; gap:6px;}
   .pay-cap{font-size:13px; font-weight:700; color:var(--muted);}
@@ -400,7 +437,7 @@
   .pay-mo{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:26px; color:var(--cream); line-height:1.15; font-variant-numeric:tabular-nums;}
   .pay-mo small{font-size:16px; font-weight:700; color:var(--muted);}
   .plan-note{font-size:13px; color:var(--muted);}
-  .plan-callout{display:block; align-self:stretch; margin-top:4px; padding:7px 10px; border-radius:8px; background:var(--accent-soft); border:1px solid rgba(var(--accent-rgb),.32);
+  .plan-callout{display:block; align-self:stretch; margin-top:4px; padding:7px 10px; border-radius:8px; background:var(--tint-bg); border:1px solid var(--tint-line);
     color:var(--accent-ink); font-size:14px; font-weight:700; line-height:1.35;}
 
   .guarantee{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px;}
@@ -425,7 +462,7 @@
   .next-fold .path{margin-top:0; border-top:1px solid var(--line);}
   .next-fold .closing-line{margin:14px 0 22px;}
 
-  .closing-line{margin-top:18px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:16px; color:var(--accent-ink); max-width:600px;}
+  .closing-line{margin-top:18px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:16px; color:var(--punch-ink); max-width:600px;}
   .inline-link{color:var(--accent-ink); font-weight:700; text-decoration:none; border-bottom:1px solid rgba(var(--accent-rgb),.45); white-space:nowrap;}
   .inline-link:hover{border-bottom-color:var(--accent-ink);}
 
