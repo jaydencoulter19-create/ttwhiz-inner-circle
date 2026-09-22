@@ -284,6 +284,22 @@
   .gtr-what{margin-top:8px; color:var(--cream); font-size:15px; font-weight:600; max-width:780px;}
   .fine{margin-top:10px; font-size:12px; line-height:1.65; color:var(--faint); max-width:780px;}
 
+  /* What happens next: folded until the rep opens it, so enrollment steps
+     (contract first) don't land while the prospect is still on the price. */
+  .next-fold{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius); padding:0 22px;}
+  .next-fold > summary{cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:18px 0;}
+  .next-fold > summary::-webkit-details-marker{display:none;}
+  .next-fold > summary:focus-visible{outline:2px solid var(--gold); outline-offset:3px; border-radius:10px;}
+  .next-fold-head{display:flex; flex-direction:column; align-items:flex-start;}
+  .next-fold-head .eyebrow{margin-bottom:6px;}
+  .next-fold-head .block-title{margin:0;}
+  .next-fold-icon{flex-shrink:0; width:30px; height:30px; border-radius:9px; border:1px solid var(--line-2); color:var(--muted);
+    display:flex; align-items:center; justify-content:center; transition:transform .2s ease, color .2s ease, border-color .2s ease;}
+  .next-fold > summary:hover .next-fold-icon{color:var(--gold); border-color:var(--gold);}
+  .next-fold[open] .next-fold-icon{transform:rotate(180deg);}
+  .next-fold .path{margin-top:0; border-top:1px solid var(--line);}
+  .next-fold .closing-line{margin:14px 0 22px;}
+
   .closing-line{margin-top:18px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:16px; color:var(--gold); max-width:600px;}
   .inline-link{color:var(--gold); font-weight:700; text-decoration:none; border-bottom:1px solid rgba(231,163,62,.45); white-space:nowrap;}
   .inline-link:hover{border-bottom-color:var(--gold);}
@@ -500,9 +516,14 @@
         <p class="fine">You qualify by doing your part: 100% of class content, 80% of group calls, and weekly 1-on-1 support. Full terms at enrollment.</p>
       </div>
 
-      <div>
-        <div class="eyebrow">After you enroll</div>
-        <h3 class="block-title">What happens next</h3>
+      <details class="next-fold">
+        <summary>
+          <span class="next-fold-head">
+            <span class="eyebrow">After you enroll</span>
+            <h3 class="block-title">What happens next</h3>
+          </span>
+          <span class="next-fold-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
         <div class="path">
           <div class="path-step"><div class="path-num">1</div><div class="path-body"><b>Sign your contract</b><span>Sent automatically the moment you're in — it protects both of us and includes your guarantee.</span></div></div>
           <div class="path-step"><div class="path-num">2</div><div class="path-body"><b>Get your welcome email</b><span>Everything you need before your onboarding call, in one place.</span></div></div>
@@ -511,7 +532,7 @@
           <div class="path-step"><div class="path-num">5</div><div class="path-body"><b>Start Your Roadmap</b><span>The step-by-step system that takes you phase by phase from signup to your first sale. <a class="inline-link" href="https://roadmap-production-0ead.up.railway.app/admin/prospects" target="_blank" rel="noopener">View Your Roadmap →</a></span></div></div>
         </div>
         <p class="closing-line">By the time we hang up today, you'll already know what tomorrow looks like.</p>
-      </div>
+      </details>
 
     </div>
   </div>
@@ -1103,6 +1124,8 @@
         body.setAttribute('hidden','');
         btn.setAttribute('aria-expanded','false');
         btn.textContent = 'Investment & Next Steps';
+        // Next reveal starts back on the price, with the enrollment steps folded.
+        [].forEach.call(body.querySelectorAll('.next-fold'), function(d){ d.open = false; });
       }
     });
   }
