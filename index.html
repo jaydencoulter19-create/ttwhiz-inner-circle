@@ -102,13 +102,12 @@
   h2.section-title{font-size:clamp(22px,3.4vw,30px); max-width:680px;}
   .section-head-row{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;}
 
-  /* Who this is for */
-  .who-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:26px;}
-  @media (max-width:640px){.who-grid{grid-template-columns:1fr;}}
-  .who-card{background:var(--ink-2); border:1px solid var(--line); border-radius:14px; padding:17px 19px;
-    font-size:15px; font-weight:600; color:var(--cream); display:flex; gap:12px; align-items:flex-start;}
-  .who-card .check{color:#20160A; background:var(--gold); width:22px; height:22px; border-radius:7px;
-    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0;}
+  /* Who this is for: a quiet reminder list, since discovery covers why it fits each person. */
+  section.who-quiet{padding:30px 0;}
+  .who-quiet h2.section-title{font-size:clamp(18px,2.4vw,21px);}
+  .who-list{list-style:none; margin:14px 0 0; padding:0; display:flex; flex-direction:column; gap:7px;}
+  .who-list li{position:relative; padding-left:20px; font-size:14.5px; font-weight:600; color:var(--muted);}
+  .who-list li::before{content:"✓"; position:absolute; left:0; top:0; color:var(--gold); font-size:12px; font-weight:800;}
 
   /* Included board */
   .reset-link{background:none; border:1px solid var(--line-2); font-family:inherit; font-size:12.5px; font-weight:700;
@@ -423,16 +422,16 @@
   </div>
 </section>
 
-<section class="tight">
+<section class="tight who-quiet">
   <div class="wrap">
     <div class="eyebrow">Who this is for</div>
     <h2 class="section-title">Built for people ready to build something real</h2>
-    <div class="who-grid">
-      <div class="who-card"><span class="check">✓</span>Build a second income stream, or replace your current one</div>
-      <div class="who-card"><span class="check">✓</span>Escape inconsistent or low-paying work</div>
-      <div class="who-card"><span class="check">✓</span>Launch and grow a real online business with support behind you</div>
-      <div class="who-card"><span class="check">✓</span>Learn how to actually make money on TikTok, step by step</div>
-    </div>
+    <ul class="who-list">
+      <li>Build a second income stream, or replace your current one</li>
+      <li>Escape inconsistent or low-paying work</li>
+      <li>Launch and grow a real online business with support behind you</li>
+      <li>Learn how to actually make money on TikTok, step by step</li>
+    </ul>
   </div>
 </section>
 
@@ -472,7 +471,7 @@
 <section class="tight">
   <div class="wrap">
     <div class="eyebrow">What this gets you</div>
-    <h2 class="section-title">The outcome, not just the offer</h2>
+    <h2 class="section-title">The actual outcomes at the end of this</h2>
     <ul class="gets-list">
       <li class="gets-item">A real, working online business — not just information</li>
       <li class="gets-item">A step-by-step path to your first sale, with a coach guiding you</li>
@@ -485,7 +484,7 @@
 <section>
   <div class="wrap">
     <div class="eyebrow">Your path</div>
-    <h2 class="section-title">How it actually works</h2>
+    <h2 class="section-title">How it all works, simplified</h2>
     <div class="path">
       <div class="path-step"><div class="path-num">1</div><div class="path-body"><b>Set up your shop</b><span>We guide you through this so it's done right the first time.</span></div></div>
       <div class="path-step"><div class="path-num">2</div><div class="path-body"><b>Pick your product</b><span>Using real sales data, not guesswork. Most members start with print-on-demand — no inventory to buy, no upfront cost.</span></div></div>
@@ -1387,7 +1386,7 @@
   var clearBtn = document.getElementById('hlClear');
   if(!toggle) return;
   // Blocks/lines that can be spotlighted, resolved as the nearest match on click.
-  var SEL = '.who-card,.pillar-col,.block-item,.gets-item,.path-step,.stack-row,.pay-fig,.guarantee,.proof-link,.faq-item,.stat,.program-title,.badge,.pill,h1,h2,h3,p,li';
+  var SEL = '.pillar-col,.block-item,.gets-item,.path-step,.stack-row,.pay-fig,.guarantee,.proof-link,.faq-item,.stat,.program-title,.badge,.pill,h1,h2,h3,p,li';
   var active = false;
 
   function clearAll(){
