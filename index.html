@@ -171,7 +171,7 @@
     line-height:1.15; outline:none; border-bottom:1px dashed transparent; cursor:text;}
   .pillar-title:hover, .pillar-title:focus{border-bottom-color:var(--gold);}
   .pillar-col .block-list{gap:10px;}
-  .pillar-col .block-item{padding:15px 60px 15px 16px; font-size:14.5px;}
+  .pillar-col .block-item{padding:15px 92px 15px 16px; font-size:14.5px;}
   .pillar-col .block-item b{font-size:16px; margin-bottom:4px;}
   .pillar-col .block-item .bi-caret{top:18px; right:16px;}
 
@@ -221,19 +221,29 @@
   .margin-math ul{margin:8px 0 2px; padding:0; list-style:none; display:flex; flex-direction:column; gap:5px;}
   .margin-math li{font-size:12.5px; color:var(--muted); font-weight:600;}
 
-  .tray-section{margin-top:14px;}
-  .tray{border:1.5px dashed var(--line-2); border-radius:14px; padding:14px 16px; background:transparent;}
-  .tray-label{font-size:12px; font-weight:700; color:var(--faint); margin-bottom:10px;}
-  .tray .block-list{flex-direction:row; flex-wrap:wrap; min-height:0;}
-  .tray .block-item{flex:0 0 auto; max-width:260px;}
-  .tray .block-list.is-empty::after{content:"Nothing hidden — drag cards here to leave them out"; padding:12px 8px;}
+  /* Rep tools beside the section title. Hidden cards live in a small panel
+     under "Hidden (n)", which only appears once a card has been put away. */
+  .deck-tools{display:flex; align-items:center; gap:8px;}
+  .hidden-wrap{position:relative;}
+  .hidden-panel{position:absolute; top:calc(100% + 8px); right:0; z-index:30; width:320px; max-width:calc(100vw - 32px);
+    background:var(--ink-2); border:1px solid var(--line-2); border-radius:14px; padding:12px; box-shadow:var(--shadow);}
+  .hidden-panel[hidden]{display:none;}
+  @media (max-width:640px){.hidden-panel{left:0; right:auto;}}
+  .hidden-panel-head{font-size:12.5px; font-weight:800; color:var(--cream); margin:2px 2px 10px; display:flex; flex-direction:column; gap:2px;}
+  .hidden-panel-head span{font-size:11.5px; font-weight:600; color:var(--faint);}
+  .hidden-panel .block-list{min-height:0; max-height:300px; overflow-y:auto; padding:0;}
+  .hidden-panel .block-item{padding:10px 88px 10px 12px;}
+  .hidden-panel .block-item .bi-text, .hidden-panel .block-item .margin-math, .hidden-panel .block-item .bi-link,
+  .hidden-panel .block-item .bi-caret{display:none;}
+  .hidden-panel .block-item .bi-label{margin-bottom:0;}
+  .hidden-panel .bi-actions{opacity:1; top:50%; transform:translateY(-50%);}
+  /* Hide on a slide, restore in the panel. */
+  .hidden-panel .bi-hide, .deck-slide .bi-restore{display:none;}
 
   /* What this gets you */
-  .gets-grid{margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-  @media (max-width:640px){.gets-grid{grid-template-columns:1fr;}}
-  .gets-item{position:relative; background:var(--ink-2); border:1px solid var(--line); border-radius:12px;
-    padding:17px 19px 17px 48px; font-size:15px; font-weight:600; color:var(--cream);}
-  .gets-item::before{content:"✓"; position:absolute; left:16px; top:16px; width:20px; height:20px; border-radius:6px;
+  .gets-list{list-style:none; margin:22px 0 0; padding:0; display:flex; flex-direction:column; gap:14px; max-width:720px;}
+  .gets-item{position:relative; padding-left:34px; font-size:16px; font-weight:600; color:var(--cream); line-height:1.45;}
+  .gets-item::before{content:"✓"; position:absolute; left:0; top:1px; width:22px; height:22px; border-radius:6px;
     background:var(--gold-soft); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;}
 
   /* Your path */
@@ -433,7 +443,17 @@
         <div class="eyebrow">What's included in the Inner Circle</div>
         <h2 class="section-title">Everything offered, broken into 3 pillars, personalized</h2>
       </div>
-      <button class="reset-link" id="resetLayout">Reset layout</button>
+      <div class="deck-tools">
+        <!-- Cards put away with a card's hide button. Only shows when something is hidden. -->
+        <div class="hidden-wrap" id="hiddenWrap">
+          <button class="reset-link" id="hiddenToggle" type="button" aria-expanded="false" aria-controls="hiddenPanel" hidden>Hidden (<span id="hiddenCount">0</span>)</button>
+          <div class="hidden-panel" id="hiddenPanel" hidden>
+            <div class="hidden-panel-head">Hidden cards<span>Restore adds it to the pillar on screen</span></div>
+            <div class="block-list" id="trayList" data-pillar="0"></div>
+          </div>
+        </div>
+        <button class="reset-link" id="resetLayout">Reset layout</button>
+      </div>
     </div>
 
     <div class="deck" id="deck">
@@ -446,13 +466,6 @@
       </div>
       <div class="deck-stage" id="board"></div>
     </div>
-
-    <div class="tray-section">
-      <div class="tray">
-        <div class="tray-label">Not shown</div>
-        <div class="block-list" id="trayList" data-pillar="0"></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -460,12 +473,12 @@
   <div class="wrap">
     <div class="eyebrow">What this gets you</div>
     <h2 class="section-title">The outcome, not just the offer</h2>
-    <div class="gets-grid">
-      <div class="gets-item">A real, working online business — not just information</div>
-      <div class="gets-item">A step-by-step path to your first sale, with a coach guiding you</div>
-      <div class="gets-item">A team helping you grow past your first sale into consistent income</div>
-      <div class="gets-item">A community of people doing this alongside you, not doing it alone</div>
-    </div>
+    <ul class="gets-list">
+      <li class="gets-item">A real, working online business — not just information</li>
+      <li class="gets-item">A step-by-step path to your first sale, with a coach guiding you</li>
+      <li class="gets-item">A team helping you grow past your first sale into consistent income</li>
+      <li class="gets-item">A community of people doing this alongside you, not doing it alone</li>
+    </ul>
   </div>
 </section>
 
@@ -583,7 +596,7 @@
     <p>Explore the full program, member results, and everything included on the main site.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://ttwizzprogram.com/" target="_blank" rel="noopener">Visit ttwizzprogram.com</a>
-      <a class="btn btn-ghost" href="https://www.ttwhizprogram.com/inner-circle-proof" target="_blank" rel="noopener">See member results</a>
+      <a class="btn btn-ghost" href="https://www.ttwhizprogram.com/call-confirmed-q" target="_blank" rel="noopener">See member results</a>
     </div>
   </div>
 </div>
@@ -756,6 +769,8 @@
     if(!b) return '';
     return `<div class="block-item${openCards[key] ? ' open' : ''}" draggable="true" data-key="${key}">
       <div class="bi-actions">
+        <button class="bi-btn bi-hide" type="button" title="Hide (put away for this call)" aria-label="Hide this card"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.4 10.4 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>
+        <button class="bi-btn bi-restore" type="button" title="Restore to the pillar on screen" aria-label="Restore this card">↩</button>
         <button class="bi-btn bi-edit" type="button" title="Edit" aria-label="Edit this card">✎</button>
         <button class="bi-btn bi-del" type="button" title="Remove" aria-label="Remove this card">✕</button>
       </div>
@@ -940,6 +955,33 @@
     const tray = document.getElementById('trayList');
     const keys = state.pillars[0] || [];
     tray.innerHTML = keys.map(blockItemHtml).join('');
+    updateHiddenCount();
+  }
+
+  // "Hidden (n)" only shows while something is hidden; with nothing left, the panel closes.
+  function updateHiddenCount(){
+    const n = document.querySelectorAll('#trayList .block-item').length;
+    document.getElementById('hiddenCount').textContent = n;
+    document.getElementById('hiddenToggle').hidden = n === 0;
+    if(n === 0) setHiddenPanel(false);
+  }
+
+  function setHiddenPanel(open){
+    document.getElementById('hiddenPanel').hidden = !open;
+    document.getElementById('hiddenToggle').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  // Hide sends a card to pillar 0; restore brings it back to the pillar on
+  // screen (the first pillar when the Overview is showing), opened.
+  function moveCard(key, pid){
+    Object.keys(state.pillars).forEach(p=>{
+      state.pillars[p] = (state.pillars[p] || []).filter(k=> k !== key);
+    });
+    state.pillars[pid] = state.pillars[pid] || [];
+    state.pillars[pid].push(key);
+    if(pid !== 0) openCards[key] = true;
+    saveState();
+    renderBoard();
   }
 
   function wireTitles(){
@@ -983,6 +1025,7 @@
         getAllLists().forEach(l=>l.classList.remove('drag-over'));
         syncStateFromDOM();
         updateEmptyStates();
+        updateHiddenCount();
         saveState();
       });
     });
@@ -1086,6 +1129,16 @@
     document.querySelectorAll('.block-item').forEach(card=>{
       const editBtn = card.querySelector('.bi-edit');
       const delBtn = card.querySelector('.bi-del');
+      const hideBtn = card.querySelector('.bi-hide');
+      const restoreBtn = card.querySelector('.bi-restore');
+      if(hideBtn) hideBtn.addEventListener('click', e=>{
+        e.stopPropagation();
+        moveCard(card.dataset.key, 0);
+      });
+      if(restoreBtn) restoreBtn.addEventListener('click', e=>{
+        e.stopPropagation();
+        moveCard(card.dataset.key, current === 'intro' ? state.order[0] : +current);
+      });
       if(editBtn) editBtn.addEventListener('click', e=>{
         e.stopPropagation();
         if(card.classList.contains('editing')) commitEdit(card);
@@ -1159,10 +1212,22 @@
     go(e.key === 'ArrowRight' ? 1 : -1);
   });
 
+  // Hidden-cards panel: toggle from its button; clicks elsewhere or Esc close it.
+  // composedPath() still holds a Restore button that re-rendering just detached.
+  const hiddenWrap = document.getElementById('hiddenWrap');
+  document.getElementById('hiddenToggle').addEventListener('click', ()=>{
+    setHiddenPanel(document.getElementById('hiddenPanel').hidden);
+  });
+  document.addEventListener('click', e=>{
+    if(!e.composedPath().includes(hiddenWrap)) setHiddenPanel(false);
+  });
+  document.addEventListener('keydown', e=>{ if(e.key === 'Escape') setHiddenPanel(false); });
+
   document.getElementById('resetLayout').addEventListener('click', ()=>{
     state = JSON.parse(JSON.stringify(DEFAULT_STATE));
     openCards = {};
     current = 'intro';
+    setHiddenPanel(false);
     saveState();
     renderBoard();
   });
