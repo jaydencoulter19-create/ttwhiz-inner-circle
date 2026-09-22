@@ -420,12 +420,11 @@
   /* Side by side, the stack matches the price card's height by spreading its rows. */
   .offer-grid .stack{display:flex; flex-direction:column;}
   .offer-grid .stack-row{flex:1;}
-  .price-card{position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:flex-start; gap:16px;
+  .price-card{position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:16px;
     border:1px solid var(--price-line); border-radius:var(--radius); padding:24px 24px 22px;
     background:radial-gradient(520px 280px at 100% -30%, rgba(var(--glow-rgb),.16), transparent 60%), var(--ink-2);}
   .price-card .eyebrow{margin-bottom:0;}
   .pay-fig{display:flex; flex-direction:column; align-items:flex-start; gap:6px;}
-  .pay-cap{font-size:13px; font-weight:700; color:var(--muted);}
   .price-line{display:flex; flex-direction:column; align-items:flex-start; gap:8px;}
   /* The $12,000 anchor sits above the real price, struck in red, so the drop reads at a glance. */
   .price-was{display:inline-flex; align-items:baseline; gap:10px; color:var(--muted); font-size:15px; font-weight:700;}
@@ -436,12 +435,6 @@
   .price-save b{color:var(--accent-ink); font-weight:800;}
   .price-save[hidden]{display:none;}
   .price-now{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(34px,6vw,48px); color:var(--cream); line-height:1; font-variant-numeric:tabular-nums;}
-  .pay-split{align-self:stretch; padding-top:14px; border-top:1px solid var(--line);}
-  .pay-mo{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:26px; color:var(--cream); line-height:1.15; font-variant-numeric:tabular-nums;}
-  .pay-mo small{font-size:16px; font-weight:700; color:var(--muted);}
-  .plan-note{font-size:13px; color:var(--muted);}
-  .plan-callout{display:block; align-self:stretch; margin-top:4px; padding:7px 10px; border-radius:8px; background:var(--tint-bg); border:1px solid var(--tint-line);
-    color:var(--accent-ink); font-size:14px; font-weight:700; line-height:1.35;}
 
   .guarantee{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px;}
   .guarantee-badge{display:inline-flex; align-items:center; gap:8px; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; color:var(--accent-ink); font-size:14px;}
@@ -672,12 +665,7 @@
             </div>
             <span class="price-save" id="priceSave" hidden><b>$2,800 off</b> for booking in from the webinar</span>
           </div>
-          <div class="pay-fig pay-split">
-            <span class="pay-cap">Your monthly payment</span>
-            <span class="pay-mo"><span class="pnum" contenteditable="true" data-price="molow">$380</span>–<span class="pnum" contenteditable="true" data-price="mohigh">$895</span><small>/mo</small></span>
-            <span class="plan-note">Your <span class="pnum" contenteditable="true" data-price="finprice">$9,200</span>, split over <span class="pnum" contenteditable="true" data-price="planmin">12</span>–<span class="pnum" contenteditable="true" data-price="planmax">36</span> months</span>
-            <span class="plan-callout">Credit dependent, we see what you qualify for</span>
-          </div>        </div>
+        </div>
         </div>
       </div>
 
