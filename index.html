@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-accent="gold">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,8 @@
        --accent-rgb           for rgba() borders and glows
        --on-accent            text on an accent fill
        --title-a / --title-b  the big gradient program name
+     The page currently runs gold (data-accent="gold" on <html>); remove that
+     attribute to go back to light blue, which the tokens below define.
      Role tokens decide where the accent shows up in each theme. Dark keeps them
      restrained (near-black canvas, softer blue tints and glows); the white version
      and gold point them fully at the accent:
@@ -92,17 +94,9 @@
     --danger-rgb:210,65,47;
     --shadow:0 1px 2px rgba(16,36,62,.06), 0 16px 36px -20px rgba(16,36,62,.28);
   }
-  /* Gold, dark: the original look, gold used generously. */
+  /* Gold, dark: gold used generously, on the same lifted charcoal surfaces. */
   :root[data-accent="gold"]:not([data-theme="light"]){
-    --ink:#0E1217;
-    --ink-2:#151B22;
-    --ink-3:#1B222B;
-    --line:rgba(238,243,250,.08);
-    --line-2:rgba(238,243,250,.15);
-    --line-3:rgba(238,243,250,.3);
-    --cream:#F3EFE7;
-    --muted:#A6B0BE;
-    --faint:#727C8A;
+    --cream:#F6F2EA;
     --accent:#E7A33E;
     --accent-2:#F4B75C;
     --accent-ink:#E7A33E;
