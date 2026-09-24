@@ -746,7 +746,7 @@
         <div class="price-card">
           <div class="eyebrow">Your investment</div>
           <!-- The price stays folded so the value can be recapped first, then shown. -->
-          <button id="revealPrice" class="btn btn-primary price-reveal" type="button" aria-expanded="false" aria-controls="priceBody">Show the investment</button>
+          <button id="revealPrice" class="btn btn-primary price-reveal" type="button" aria-expanded="false" aria-controls="priceBody">Here's your way in</button>
           <div class="price-body" id="priceBody" hidden>
             <div class="pay-fig">
               <div class="price-line">
@@ -1504,7 +1504,7 @@
     if(open) priceBody.removeAttribute('hidden'); else priceBody.setAttribute('hidden','');
     priceBtn.classList.toggle('is-open', open);
     priceBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    priceBtn.textContent = open ? 'Hide the investment' : 'Show the investment';
+    priceBtn.textContent = open ? 'Hide' : "Here's your way in";
     if(!open) [].forEach.call(priceBody.querySelectorAll('.fin-fold'), function(d){ d.open = false; });
   }
   if(priceBtn && priceBody){
