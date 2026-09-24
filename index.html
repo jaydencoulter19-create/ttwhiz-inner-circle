@@ -438,6 +438,15 @@
     border:1px solid var(--price-line); border-radius:var(--radius); padding:24px 24px 22px;
     background:radial-gradient(520px 280px at 100% -30%, rgba(var(--glow-rgb),.16), transparent 60%), var(--ink-2);}
   .price-card .eyebrow{margin-bottom:0;}
+  /* Folded price: the card holds its place next to the value stack, showing only
+     the reveal, so the rep recaps the value before the figure lands. */
+  .price-reveal{align-self:stretch; justify-content:center;}
+  /* Once the price is up, the reveal shrinks to a quiet "hide" under the figures. */
+  .price-reveal.is-open{order:2; align-self:flex-start; justify-content:flex-start; font-size:13px; font-weight:700;
+    padding:8px 12px; border-radius:9px; background:none; color:var(--muted); border-color:var(--line-2); box-shadow:none;}
+  .price-reveal.is-open:hover{transform:none; box-shadow:none; color:var(--accent-ink); border-color:var(--accent-ink);}
+  .price-body{align-self:stretch; display:flex; flex-direction:column; align-items:flex-start; gap:16px;}
+  .price-body[hidden]{display:none;}
   .pay-fig{display:flex; flex-direction:column; align-items:flex-start; gap:6px;}
   .pay-cap{font-size:13px; font-weight:700; color:var(--muted);}
   .pay-split{align-self:stretch; padding-top:14px; border-top:1px solid var(--line);}
@@ -730,31 +739,35 @@
           <div class="stack-row"><span class="lbl">Three weekly live coaching calls + 1-on-1 support</span><span class="val"><span class="pnum" contenteditable="true" data-price="v2">$6,000</span></span></div>
           <div class="stack-row"><span class="lbl">Elite operator community + affiliate creator network</span><span class="val"><span class="pnum" contenteditable="true" data-price="v3">$2,000</span></span></div>
           <div class="stack-row"><span class="lbl">Done-for-you scripts, templates &amp; <span class="pnum" contenteditable="true" data-price="tools">$1,000</span> in AI tools</span><span class="val"><span class="pnum" contenteditable="true" data-price="v4">$3,000</span></span></div>
-          <div class="stack-row"><span class="lbl">100+ video lessons + advanced scaling systems</span><span class="val"><span class="pnum" contenteditable="true" data-price="v5">$4,000</span></span></div>
+          <div class="stack-row"><span class="lbl">100+ video lessons, beginner to advanced</span><span class="val"><span class="pnum" contenteditable="true" data-price="v5">$4,000</span></span></div>
           <div class="stack-row total"><span class="lbl">Total value</span><span class="val"><span class="pnum" contenteditable="true" data-price="vtotal">$17,000</span></span></div>
         </div>
 
         <div class="price-card">
           <div class="eyebrow">Your investment</div>
-          <div class="pay-fig">
-            <div class="price-line">
-              <span class="price-was">Enrollment <s><span class="pnum" contenteditable="true" data-price="enroll">$12,000</span></s></span>
-              <span class="price-now"><span class="pnum" contenteditable="true" data-price="finprice">$9,200</span></span>
+          <!-- The price stays folded so the value can be recapped first, then shown. -->
+          <button id="revealPrice" class="btn btn-primary price-reveal" type="button" aria-expanded="false" aria-controls="priceBody">Show the investment</button>
+          <div class="price-body" id="priceBody" hidden>
+            <div class="pay-fig">
+              <div class="price-line">
+                <span class="price-was">Enrollment <s><span class="pnum" contenteditable="true" data-price="enroll">$12,000</span></s></span>
+                <span class="price-now"><span class="pnum" contenteditable="true" data-price="finprice">$9,200</span></span>
+              </div>
+              <span class="price-save" id="priceSave" hidden><b>$2,800 off</b> for booking in from the webinar</span>
             </div>
-            <span class="price-save" id="priceSave" hidden><b>$2,800 off</b> for booking in from the webinar</span>
+            <details class="fin-fold">
+              <summary>
+                Financing/payment plans available if needed
+                <span class="fin-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+              </summary>
+              <div class="pay-fig pay-split">
+                <span class="pay-cap">Your monthly payment</span>
+                <span class="pay-mo"><span class="pnum" contenteditable="true" data-price="molow">$380</span>–<span class="pnum" contenteditable="true" data-price="mohigh">$895</span><small>/mo</small></span>
+                <span class="plan-note">Your <span class="pnum" contenteditable="true" data-price="finprice">$9,200</span>, split over <span class="pnum" contenteditable="true" data-price="planmin">12</span>–<span class="pnum" contenteditable="true" data-price="planmax">36</span> months</span>
+                <span class="plan-callout">Credit dependent, we see what you qualify for</span>
+              </div>
+            </details>
           </div>
-          <details class="fin-fold">
-            <summary>
-              Financing/payment plans available if needed
-              <span class="fin-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
-            </summary>
-            <div class="pay-fig pay-split">
-              <span class="pay-cap">Your monthly payment</span>
-              <span class="pay-mo"><span class="pnum" contenteditable="true" data-price="molow">$380</span>–<span class="pnum" contenteditable="true" data-price="mohigh">$895</span><small>/mo</small></span>
-              <span class="plan-note">Your <span class="pnum" contenteditable="true" data-price="finprice">$9,200</span>, split over <span class="pnum" contenteditable="true" data-price="planmin">12</span>–<span class="pnum" contenteditable="true" data-price="planmax">36</span> months</span>
-              <span class="plan-callout">Credit dependent, we see what you qualify for</span>
-            </div>
-          </details>
         </div>
         </div>
       </div>
@@ -1482,6 +1495,22 @@
   // Reveal / hide the Investment & Next Steps details.
   var btn = document.getElementById('revealInvestment');
   var body = document.getElementById('investmentBody');
+
+  // The price itself folds separately, so the value stack can be recapped first.
+  var priceBtn = document.getElementById('revealPrice');
+  var priceBody = document.getElementById('priceBody');
+  function setPrice(open){
+    if(!priceBtn || !priceBody) return;
+    if(open) priceBody.removeAttribute('hidden'); else priceBody.setAttribute('hidden','');
+    priceBtn.classList.toggle('is-open', open);
+    priceBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    priceBtn.textContent = open ? 'Hide the investment' : 'Show the investment';
+    if(!open) [].forEach.call(priceBody.querySelectorAll('.fin-fold'), function(d){ d.open = false; });
+  }
+  if(priceBtn && priceBody){
+    priceBtn.addEventListener('click', function(){ setPrice(priceBody.hasAttribute('hidden')); });
+  }
+
   if(btn && body){
     btn.addEventListener('click', function(){
       var willOpen = body.hasAttribute('hidden');
@@ -1494,7 +1523,9 @@
         body.setAttribute('hidden','');
         btn.setAttribute('aria-expanded','false');
         btn.textContent = 'Investment & Next Steps';
-        // Next reveal starts back on the price, with the enrollment steps folded.
+        // Next reveal starts back on the value recap, with the price and the
+        // enrollment steps folded.
+        setPrice(false);
         [].forEach.call(body.querySelectorAll('.next-fold, .fin-fold'), function(d){ d.open = false; });
       }
     });
